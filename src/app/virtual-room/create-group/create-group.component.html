@@ -1,0 +1,102 @@
+<form [formGroup]="GroupForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+      <h1>Create Group</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="groupName">Group Name</label>
+            <input type="text" class="form-control" id="groupName" name="groupName" formControlName="groupName" required>
+          </div>
+          
+
+          <ng-container *ngIf="guests.length > 0">
+            <div class="form-group">
+              <label for="selectedGuest">Group Members</label>
+              <select class="form-control" id="selectedGuest" formControlName="selectedGuest">
+                <option *ngFor="let guest of guests" [value]="guest.id">{{ guest.name }}</option>
+              </select>
+            </div>
+          </ng-container>
+          <div *ngIf="guests.length === 0">
+            <label for="selectedGuest">Group Members</label> <br>
+            <p>You have not invited any guests yet.</p>
+          </div>
+          
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="permission">Permission</label>
+            <select class="form-control" id="permission" formControlName="permission" name="permission">
+              <option value="no access">No Access</option>
+              <option value="view">View only</option>
+              <option value="print">View and print files</option>
+              <option value="download">Download (PDF)</option>
+              <option value="edit">Edit</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="accessExpiry">Access Expiry</label>
+            <select class="form-control" id="accessExpiry" formControlName="accessExpiry" name="accessExpiry">
+              <option value="1">1 Day</option>
+              <option value="Custom">Custom</option>
+              <option value="7">7 Days</option>
+              <option value="30">30 Days</option>
+              <option value="60">60 Days</option>
+              <option value="90">90 Days</option>
+            </select>
+          </div>
+          <div *ngIf="GroupForm.get('accessExpiry').value === 'Custom'">
+            <div class="form-group">
+              <label for="starts">Starts</label>
+              <div class="expiry-container">
+                <mat-datepicker #picker [hidden]="!showDatePicker" formControlName="startsToggleControl" required name="startsToggleControl"></mat-datepicker>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="datetime-picker">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Starts</mat-label>
+                      <input matInput [matDatepicker]="datetimePicker" formControlName="startsDateTime" name="startsDateTime">
+                      <mat-datepicker-toggle matSuffix [for]="datetimePicker"></mat-datepicker-toggle>
+                      <mat-datepicker #datetimePicker></mat-datepicker>
+                    </mat-form-field>
+                    <ngx-material-timepicker-toggle [for]="timePicker"></ngx-material-timepicker-toggle>
+                    <ngx-material-timepicker #timePicker></ngx-material-timepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ends">Ends</label>
+              <div class="expiry-container">
+                <mat-datepicker #picker [hidden]="!showDatePicker" formControlName="endsToggleControl" required name="endsToggleControl"></mat-datepicker>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="datetime-picker">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Ends</mat-label>
+                      <input matInput [matDatepicker]="datetimePicker2" formControlName="endsDateTime" name="endsDateTime">
+                      <mat-datepicker-toggle matSuffix [for]="datetimePicker2"></mat-datepicker-toggle>
+                      <mat-datepicker #datetimePicker2></mat-datepicker>
+                    </mat-form-field>
+                    <ngx-material-timepicker-toggle [for]="timePicker2"></ngx-material-timepicker-toggle>
+                    <ngx-material-timepicker #timePicker2></ngx-material-timepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  </div>
+  </div>    
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="button" class="btn btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </form>
+  

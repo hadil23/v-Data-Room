@@ -1,0 +1,63 @@
+
+.card-container {
+    display: flex; 
+    flex-wrap: nowrap; 
+    overflow-x: auto; 
+    margin-left: 20%;
+    margin-top: 5%;
+  }
+  
+  .mat-card {
+    flex: 0 0 auto; 
+    margin-right: 10px; 
+  }
+  
+ mat-card {
+    width: 500px; 
+    box-shadow: 0 3px 1px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.13);
+    border-radius: 4px;
+    overflow: hidden; 
+  }
+  
+  mat-card-header {
+    padding: 16px;
+  }
+  
+  mat-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  mat-card-subtitle {
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+  }
+  
+  
+  mat-card-content {
+    padding: 40px;
+  }
+  
+
+  mat-card-actions {
+    padding: 8px;
+    display: flex;
+    width: 100%;
+    border: 1px;
+    background-color: rgb(98, 98, 246);
+    color: white;
+    justify-content: center;
+  }
+  
+  mat-button {
+    margin: 4px 4px; 
+  }
+  
+
+  mat-card-image {
+    width: 100%;
+    height: auto; 
+    object-fit: cover; 
+  }
+  

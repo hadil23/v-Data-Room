@@ -1,0 +1,34 @@
+{
+    "navbar": {
+      "home": "Accueil",
+      "about": "À propos",
+      "contact": "Contact"
+    },
+    "welcome_message": "Bienvenue dans notre application !",
+    "login": {
+      "title": "Connexion",
+      "username": "Nom d'utilisateur",
+      "password": "Mot de passe",
+      "submit": "Envoyer",
+      "forgot_password": "Mot de passe oublié ?"
+    },
+    "errors": {
+      "404": "Page non trouvée",
+      "500": "Erreur interne du serveur"
+    },
+    "messages": {
+      "success": "Opération réussie !",
+      "error": "Une erreur est survenue."
+    },
+    "confirmation": {
+      "delete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+      "confirm": "Confirmer",
+      "cancel": "Annuler"
+    },
+    "footer": {
+      "copyright": "Droits d'auteur",
+      "privacy_policy": "Politique de confidentialité",
+      "terms_of_service": "Conditions d'utilisation"
+    }
+  }
+  

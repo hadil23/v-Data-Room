@@ -1,0 +1,73 @@
+<app-sidebar-side></app-sidebar-side>
+<app-sidenav></app-sidenav>
+<app-header-side></app-header-side>
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Manage Data Rooms</h2>
+        <div class="sort-bar">
+          <label for="sortBy">Sort by:</label>
+          <select id="sortBy" [(ngModel)]="sortBy" (change)="sortDataRooms(sortBy)">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="owner">Owner(Z-A)</option>
+            <option value="views">Views (Lowest first)</option>
+          </select>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>
+                  <input type="checkbox" (change)="selectAll($event)">
+                  Select All
+                </th>
+                <th>NAME</th>
+                <th>OWNER</th>
+                <th>VIEWS</th>
+                <th>DATE</th>
+                <th>MENU</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dataRoom of dataRooms; let i = index">
+                <td>
+                  <input type="checkbox" [(ngModel)]="dataRoom.selected">
+                </td>
+                <td>{{ dataRoom.name }}</td>
+                <td>
+                  <ul>
+                    <li *ngFor="let owner of dataRoom.owners">{{ owner }}</li>
+                  </ul>
+                </td>
+                <td>{{ dataRoom.views }}</td>
+                <td>{{ dataRooms.date }}</td>
+                <td>
+                  <button mat-icon-button [matMenuTriggerFor]="dataRoomMenu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #dataRoomMenu>
+                    <ng-template matMenuContent>
+                      <li>
+                        <button mat-menu-item (click)="viewDataRoom(i)">View DataRoom</button>
+                      </li>
+                      
+                      <li>
+                        <button mat-menu-item (click)="getDataRoomLink(i)">Get DataRoom Link</button>
+                      </li>
+                      <li>
+                        <button mat-menu-item (click)="manageAccess(i)">Manage Access</button>
+                      </li>
+                      <li>
+                        <button mat-menu-item (click)="deleteDataRoom(i)">Delete DataRoom</button>
+                      </li>
+                    </ng-template>
+                  </mat-menu>
+                </td>
+              </tr>
+            </tbody>
+          </table>          
+      </div>
+    </div>
+  </div>
+  
+

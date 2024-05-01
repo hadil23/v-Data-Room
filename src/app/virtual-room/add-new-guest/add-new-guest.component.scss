@@ -1,0 +1,71 @@
+.container {
+    max-width: 800px; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .row {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5%;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .container {
+      padding: 10px;
+    }
+  }
+  
+  /* Additional styles for datetime-picker */
+  .datetime-picker {
+    display: flex;
+    align-items: center;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  .expiry-container {
+    position: relative;
+  }
+  
+  .mat-datepicker-toggle {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* Adjustments for smaller screens */
+  @media (max-width: 576px) {
+    .form-control {
+      font-size: 14px;
+    }
+  }
+  

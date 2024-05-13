@@ -76,6 +76,6 @@ CommonModule,
   ],
   declarations: components,
   // entryComponents: [AppComfirmComponent, AppLoaderComponent, BottomSheetShareComponent],
-  exports: [SidebarSideComponent,SidebarTopComponent,SidenavComponent,HeaderSideComponent,HeaderTopComponent,FooterComponent,NotificationsComponent],
+  exports: [SidebarSideComponent,SidebarTopComponent,SidenavComponent,HeaderSideComponent,HeaderTopComponent,FooterComponent,NotificationsComponent,CustomizerComponent],
 })
 export class SharedComponentsModule {}

@@ -26,6 +26,7 @@ import { ErrorHandlerService } from './shared/services/error-handler.service';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { FormsModule } from '@angular/forms';
 import { DashboardModule } from './views/dashboard/dashboard.module';
+import { AddGroupComponent } from './virtual-room/add-group/add-group.component';
 
 
 
@@ -59,7 +60,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     InMemoryWebApiModule.forRoot(InMemoryDataService, { passThruUnknownUrl: true}),
     RouterModule.forRoot(rootRouterConfig, { useHash: false, relativeLinkResolution: 'legacy' })
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, AddGroupComponent],
   providers: [
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     // { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },

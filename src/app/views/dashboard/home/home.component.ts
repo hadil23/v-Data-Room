@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Importez Router depuis '@angular/router'
 
 @Component({
@@ -7,7 +7,7 @@ import { Router } from '@angular/router'; // Importez Router depuis '@angular/ro
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
- 
+  @Input() virtualDataRoomTitle: string = 'E-tafakna'; 
   constructor(private router: Router) { } // Utilisez Router ici
 
   ngOnInit(): void {

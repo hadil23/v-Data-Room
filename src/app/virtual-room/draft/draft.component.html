@@ -1,0 +1,30 @@
+<div class="container">
+<mat-card>
+ 
+  <mat-card-header>
+    <mat-card-title></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="container">
+      <div *ngFor="let dataRoom of virtualDataRooms">
+        <h2>{{ dataRoom.title }}</h2>
+        <ul>
+          <li *ngFor="let panel of dataRoom.panels">
+            <h3>{{ panel.title }}</h3>
+            <ul>
+              <li *ngFor="let file of panel.files">
+                {{ file }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<div class="button-container">
+<div class="btn btn-primary" (click)=" BackToVirtualDataRoom()">Back</div>
+</div>
+</div>
+
+

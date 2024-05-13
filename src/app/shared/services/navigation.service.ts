@@ -29,13 +29,7 @@ interface IBadge {
 @Injectable()
 export class NavigationService {
   iconMenu: IMenuItem[] = [
-    {
-      name: 'DASHBOARD',
-      state: 'dashboard/analytics',
-      type: 'link',
-      icon: 'dashboard',
-    },
-    
+  
     {
       name: 'Home',
       state:'home',
@@ -51,22 +45,10 @@ export class NavigationService {
       icon: 'room_service',
     },
 
+    
+    
     {
-      name: 'Send Files',
-      type: 'link',
-      state:'/send-file',
-      icon: 'send'
-  
-    },
-    {
-      name: 'Manage Send Files',
-      type: 'link',
-      state:'/manage-send-files',
-      icon: 'open_in_browser'
-  
-    },
-    {
-      name: 'Manage Data Rooms',
+      name: 'Manage ',
       type: 'link',
       state:'/manage-data-rooms',
       icon: 'open_in_browser'
@@ -74,44 +56,18 @@ export class NavigationService {
     },
     
     {
-      name: 'FORMS',
-      type: 'separator'
-    },
-   
-    {
-      name: 'EDITOR',
-      state: 'forms/editor',
-      type: 'link',
-      icon: 'subject',
-    },
-    {
-      name: 'UPLOAD',
-      state: 'forms/upload',
-      type: 'link',
-      icon: 'upload',
-    },
-    {
-      name: 'WIZARD',
-      state: 'forms/wizard',
-      type: 'link',
-      icon: 'grain',
-    },
-    {
-      name: 'PAGES',
-      type: 'separator'
-    },
-    {
-      name: 'SESSIONS',
-      type: 'dropDown',
-      tooltip: 'Pages',
-      icon: 'view_carousel',
-      sub: [
-        { name: 'SIGNUP', state: 'sessions/signup' },
-        { name: 'SIGNIN', state: 'sessions/signin' },
-        { name: 'NOTFOUND', state: 'sessions/404' },
-      ]
+      name: 'SETTINGS',
+      type: 'separator',
+      
     },
 
+    {
+      name: 'Signout',
+      type: 'link',
+      state:'/signup',
+      icon: 'lock'
+  
+    },
    
     {
       name: 'OTHERS',
@@ -119,10 +75,8 @@ export class NavigationService {
       tooltip: 'Others',
       icon: 'blur_on',
       sub: [
-        { name: 'GALLERY', state: 'others/gallery' },
-        { name: 'PRICINGS', state: 'others/pricing' },
         { name: 'USERS', state: 'others/users' },
-        { name: 'BLANK', state: 'others/blank' }
+      
       ]
     }
     

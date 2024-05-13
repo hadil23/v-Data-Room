@@ -1,5 +1,6 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AnimationEvent } from 'chart.js';
 
 @Component({
@@ -15,6 +16,7 @@ import { AnimationEvent } from 'chart.js';
   ]
 })
 export class CreateVirtualRoomComponent implements OnInit {
+  showNavBar: boolean = true;
   dataRoomForm: FormGroup;
   selectedAccessOption: string = 'off';
   expiryDate: Date;
@@ -24,13 +26,16 @@ export class CreateVirtualRoomComponent implements OnInit {
 
   showTimePicker: boolean = false;
   chosenTime: string;
-  router: any;
+ 
   
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder , private router: Router) {
     this.initForm();
   }
 
   ngOnInit(): void {
+  }
+  toggleNavBarVisibility() {
+    this.showNavBar = !this.showNavBar;
   }
 
   initForm(): void {
@@ -77,5 +82,8 @@ export class CreateVirtualRoomComponent implements OnInit {
     const selectedHour = event.hour < 10 ? '0' + event.hour : event.hour;
     const selectedMinute = event.minute < 10 ? '0' + event.minute : event.minute;
     this.selectedTime = `${selectedHour}:${selectedMinute}`;
-  }  
+  }
+  GoToVirtualDataRoom() :void {
+    this.router.navigate(['/virtual-data-room'])
+  } 
 }

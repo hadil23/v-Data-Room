@@ -1,95 +1,103 @@
 <app-sidebar-side></app-sidebar-side>
 <app-sidenav></app-sidenav>
-<app-header-side></app-header-side>
-
+<div class="col-md-3 sideBar" *ngIf="showNavBar">
+ <app-header-side></app-header-side>
+</div>
+<app-customizer (click)="toggleNavBarVisibility()"></app-customizer>
 <form [formGroup]="dataRoomForm" (ngSubmit)="onSubmit()">
   <div class="container">
     <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="dataRoomName">Data Room Name</label>
-          <input type="text" class="form-control" id="dataRoomName" name="dataRoomName" formControlName="dataRoomName" required>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="access">Access</label>
-          <select class="form-control" id="access" formControlName="access" name="access">
-            <option value="Only people i specify">Only people I specify</option>
-            <option value="View">View</option>
-            <option value="Comment">Comment</option>
-            <option value="Edit">Edit</option>
-          </select>
-        </div>
-      </div>
-    </div>
+      <div class="col-md-9">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="dataRoomName">Data Room Name</label>
+                <input type="text" class="form-control" id="dataRoomName" name="dataRoomName" formControlName="dataRoomName" required>
+              </div>
+            </div>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <div class="form-check">
-            <label class="form-check-label" for="enforceEmailVerification">
-              <input type="checkbox" class="form-check-input" id="enforceEmailVerification" name="enforceEmailVerification" formControlName="enforceEmailVerification">
-              Enforce Email Verification
-            </label>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="access">Access</label>
+                <select class="form-control" id="access" formControlName="access" name="access">
+                  <option value="Only people i specify">Only people I specify</option>
+                  <option value="View">View</option>
+                  <option value="Comment">Comment</option>
+                  <option value="Edit">Edit</option>
+                </select>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="form-group">
-          <label for="defaultGuestPermission">Default Guest Permission</label>
-          <select class="form-control" id="defaultGuestPermission" name="defaultGuestPermission" formControlName="defaultGuestPermission">
-            <option value="View">View</option>
-            <option value="Comment">Comment</option>
-            <option value="Edit">Edit</option>
-          </select>
-        </div>
-      </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="form-check">
+                  <label class="form-check-label" for="enforceEmailVerification">
+                    <input type="checkbox" class="form-check-input" id="enforceEmailVerification" name="enforceEmailVerification" formControlName="enforceEmailVerification">
+                    Enforce Email Verification
+                  </label>
+                </div>
+              </div>
 
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="termaccess">Terms of Access</label>
-          <select class="form-control" id="termaccess" formControlName="termaccess" name="termaccess">
-            <option value="Off">Off</option>
-            <option value="organisation">Use Organisation Terms</option>
-            <option value="custom">Use Custom Terms</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <label for="expiryDate">Data Room Expiry</label>
-      <div class="expiry-container">
-        <mat-slide-toggle (change)="expiryDateToggleChanged()" [formControl]="expiryDateToggleControl">
-          <span class="mat-slide-toggle-bar"></span>
-          <span class="mat-slide-toggle-label"></span>
-        </mat-slide-toggle>
-      </div>
-    </div>
-    
-    <div class="row" *ngIf="showDatePicker">
-      <div class="col-md-6">
-        <div class="form-group">
-          <div class="datetime-picker">
-            <mat-form-field appearance="fill">
-              <mat-label>Date and Time</mat-label>
-              <input matInput [matDatepicker]="datetimePicker" formControlName="chosenDateTime" name="chosenDateTime">
-              <mat-datepicker-toggle matSuffix [for]="datetimePicker"></mat-datepicker-toggle>
-              <mat-datepicker #datetimePicker></mat-datepicker>
-            </mat-form-field>
-            <ngx-material-timepicker-toggle [for]="timePicker"></ngx-material-timepicker-toggle>
-            <ngx-material-timepicker #timePicker (timeSet)="onTimeSet($event)"></ngx-material-timepicker>
+              <div class="form-group">
+                <label for="defaultGuestPermission">Default Guest Permission</label>
+                <select class="form-control" id="defaultGuestPermission" name="defaultGuestPermission" formControlName="defaultGuestPermission">
+                  <option value="View">View</option>
+                  <option value="Comment">Comment</option>
+                  <option value="Edit">Edit</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="termaccess">Terms of Access</label>
+                <select class="form-control" id="termaccess" formControlName="termaccess" name="termaccess">
+                  <option value="Off">Off</option>
+                  <option value="organisation">Use Organisation Terms</option>
+                  <option value="custom">Use Custom Terms</option>
+                </select>
+              </div>
+            </div>
           </div>
+
+          <div class="form-group">
+            <label for="expiryDate">Data Room Expiry</label>
+            <div class="expiry-container">
+              <mat-slide-toggle (change)="expiryDateToggleChanged()" [formControl]="expiryDateToggleControl">
+                <span class="mat-slide-toggle-bar"></span>
+                <span class="mat-slide-toggle-label"></span>
+              </mat-slide-toggle>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="showDatePicker">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="datetime-picker">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Date and Time</mat-label>
+                    <input matInput [matDatepicker]="datetimePicker" formControlName="chosenDateTime" name="chosenDateTime">
+                    <mat-datepicker-toggle matSuffix [for]="datetimePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datetimePicker></mat-datepicker>
+                  </mat-form-field>
+                  <ngx-material-timepicker-toggle [for]="timePicker"></ngx-material-timepicker-toggle>
+                  <ngx-material-timepicker #timePicker (timeSet)="onTimeSet($event)"></ngx-material-timepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="showTimePicker">
+            <label for="selectedTime">Selected Time</label>
+            <input type="text" class="form-control" id="selectedTime" name="selectedTime" [value]="selectedTime">
+          </div>
+
+          <button type="submit" class="btn btn-primary" (click)="GoToVirtualDataRoom()">Create Data Room</button>
         </div>
       </div>
     </div>
-    
-    <div class="form-group" *ngIf="showTimePicker">
-      <label for="selectedTime">Selected Time</label>
-      <input type="text" class="form-control" id="selectedTime" name="selectedTime" [value]="selectedTime">
-    </div>
-    
-    
-    <button type="submit" class="btn btn-primary">Create Data Room</button>
   </div>
 </form>

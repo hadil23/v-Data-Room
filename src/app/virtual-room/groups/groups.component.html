@@ -13,8 +13,8 @@
       </div>
       <div class="col-md-9">
       <div class="col-md-9">
-        <h2>Guests</h2>
-       <div class = "button" (click)="goToAddGuest()">Add guest</div>
+        <h2>Groups</h2>
+       <div class = "button" (click)="goToAddGroup()">Add Group</div>
         <table class="table table-bordered table-striped">
             <thead>
               <tr>
@@ -23,45 +23,34 @@
                   Select All
                 </th>
                 <th>NAME</th>
-                <th>GROUP</th>
                 <th>PERMISSION</th>
-                <th>DATE ADDED</th>
-                <th>LAST VISIT </th>
                 <th>MENU</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let guest  of guests; let i = index">
+              <tr *ngFor="let group  of groups; let i = index">
                 <td>
-                  <input type="checkbox" [(ngModel)]="guest.selected">
+                  <input type="checkbox" [(ngModel)]="group.selected">
                 </td>
-                <td>{{ guest.name }}</td>
+                <td>{{ group.name }}</td>
                 <td>
-                  <ul>
-                    <li *ngFor="let guest of guest.group">{{ group }}</li>
-                  </ul>
+                 
                 </td>
-                <td>{{ guest.permission }}</td>
-                <td>{{ guest.visit }}</td>
-                <td>{{ guest.date }}</td>
+                <td>{{ group.permission }}</td>
                 <td>
-                  <button mat-icon-button [matMenuTriggerFor]="guestMenu">
+                  <button mat-icon-button [matMenuTriggerFor]="groupMenu">
                     <mat-icon>more_vert</mat-icon>
                   </button>
-                  <mat-menu #guestMenu>
+                  <mat-menu #groupMenu>
                     <ng-template matMenuContent>
                       <li>
-                        <button mat-menu-item (click)="editGuest(i)">Edit Guest</button>
-                      </li>
-                      
-                      <li>
-                        <button mat-menu-item (click)="getDataRoomLink(i)">Get DataRoom Link</button>
+                        <button mat-menu-item (click)="editGroup(i)">Edit Group</button>
                       </li>
                       <li>
-                        <button mat-menu-item (click)=" goToPermission()">Preview Guest Access </button>
+                        <button mat-menu-item >Preview Group Access </button>
                       </li>
                       <li>
-                        <button mat-menu-item (click)="deleteGuest(i)">Remove Guest</button>
+                        <button mat-menu-item (click)="deleteGroup(i)">Delete</button>
                       </li>
                     </ng-template>
                   </mat-menu>
@@ -73,3 +62,4 @@
     </div>
   </div>
   
+

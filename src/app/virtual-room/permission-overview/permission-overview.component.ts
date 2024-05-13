@@ -14,22 +14,17 @@ interface DataRoom {
 })
 export class PermissionOverviewComponent implements OnInit {
   dataRoomName: string = 'E-tafakna';
-  guests: any[] = []; // Replace with actual guest data
-  dataRooms: DataRoom[] = []; // Replace with actual dataRoom data
+  
+  dataRooms: DataRoom[] = []; 
   
 
   constructor() {}
   
 
   ngOnInit() {
-    this.guests = [
     
-      { name: 'hadil', avatar: '../../assets/images/avatars/002-woman.svg' },
-      { name: 'Ahmed', avatar: '../../assets/images/avatars/005-man-2.svg' } 
-     
-   ];
     this.dataRooms = [
-      { dataRoomName: 'Room 1', permission: 'noAccess', selected: false },
+      { dataRoomName: 'e-tafakna', permission: 'noAccess', selected: false },
       // Add more dataRooms as needed
     ];
   }
@@ -40,6 +35,7 @@ export class PermissionOverviewComponent implements OnInit {
   }
 
   saveChanges() {
+    console.log('changes was succesfully saved ')
     
   }
 

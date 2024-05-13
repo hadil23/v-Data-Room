@@ -1,6 +1,6 @@
-/* Styles for Manage Sent Files page */
+
 .container {
-    margin-top: 20px;
+    margin-top: 60px;
     margin-left: 17%;
   }
   h2{
@@ -35,7 +35,6 @@
     font-weight: bold;
   }
   
-  /* Responsive styles */
   @media (max-width: 768px) {
     table {
       overflow-x: auto;
@@ -46,4 +45,29 @@
       white-space: nowrap;
     }
   }
+  .search-bar-container {
+    background-color: white;
+    margin-left: 83%;
+    margin-bottom: 40%;
+    margin-top: 3%;
+    display: flex;
+    width: 15px;
+    max-height: 4px;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+   
+  }
+  
+  .mat-form-field {
+    flex: 1;
+  
+  }
+  
+  .search-icon {
+    color: black; 
+    margin-right: 10px;
+  }
+  
   

@@ -1,0 +1,83 @@
+<app-sidebar-side></app-sidebar-side>
+<app-sidenav></app-sidenav>
+<div class="col-md-3 sideBar" *ngIf="showNavBar">
+ <app-header-side></app-header-side>
+</div>
+<app-customizer (click)="toggleNavBarVisibility()"></app-customizer>
+
+<div class="container">
+  <h1>{{ virtualDataRoomTitle }}</h1>
+  <div class="button-container">
+    
+    <button class=" btn btn-secondar" (click)="addNewSection()">Add New Section</button>
+    <div class="btn btn-secondar">Upload</div> 
+    <div class="btn btn-secondar">Generate Documents</div> 
+   
+    </div>
+    <br>
+  
+    <div class="accordion-container">
+      <mat-accordion>
+        <div class="col" *ngFor="let panel of panels">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title class="panel-title">
+                <div class="title-container">
+                  <h3>{{ panel.title }}</h3>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+  
+            <mat-panel-description cdkDropList [cdkDropListData]="panel.files" (cdkDropDropped)="dropFile(panel, $event)">
+              <div *ngFor="let file of panel.files" class="draggable-file">
+                <img src="{{ file.url }}" alt="{{ file.name }}">
+                <p>{{ file.name }}</p>
+              </div>
+            </mat-panel-description>
+  
+            <div class="add-file-button">
+              <input type="file" (change)="addFileToPanel(panel, $event.target.files)">
+              <label for="file-input"></label>
+            </div>
+          </mat-expansion-panel>
+        </div>
+      </mat-accordion>
+    </div>
+  </div>
+  <div class="accordion-container">
+    <mat-accordion>
+      <div class="col" *ngFor="let panel of paneles">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="panel-title">
+              <div class="title-container">
+                <h3>{{ panel.title }}</h3>
+              </div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <div class="add-file-button">
+            </div>
+        </mat-expansion-panel>
+      </div>
+      
+    </mat-accordion>
+    
+  </div>
+  
+ 
+
+  <div class="button-container">
+  
+    <div class="btn btn-primar" (click)=" openAddGuestDialog()">Share</div>
+    <div class="btn btn-primar" (click)=" goToDraft()">Save</div>
+   
+
+
+  </div>
+  
+
+  
+
+
+  

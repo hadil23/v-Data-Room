@@ -1,0 +1,30 @@
+<div class="container">
+  <mat-card>
+    <div *ngFor="let virtualDataRoom of virtualDataRooms">
+      <h2>{{ virtualDataRoom.title }}</h2>
+      <div class="panel-actions">
+        <div *ngFor="let panel of virtualDataRoom.panels; let i = index" class="panel-container">
+          <h3>
+            <input type="text" [(ngModel)]="panel.title" class="panel-title-input">
+          </h3>
+          <ul>
+            <li *ngFor="let file of panel.files; let j = index">
+              {{ file }}
+              <button class="btn btn-primary" (click)="editFile(panel, file)">Edit</button>
+            </li>
+          </ul>
+          <div class="file-actions">
+            <input type="file" (change)="uploadFile($event, panel)">
+          </div>
+          <button class="btn btn-danger" (click)="deletePanel(panel)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <div class="button-container">
+    <button class="btn btn-primary" (click)="saveChanges()">Save Changes</button>
+    <button class="btn btn-primary" (click)="backToVirtualDataRoom()">Back</button>
+  </div>
+</div>

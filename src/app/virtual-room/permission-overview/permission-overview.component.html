@@ -1,14 +1,5 @@
 <div class="container">
     <div class="row">
-      <div class="col-md-3 sideBar">
-        <h2>Guests</h2>
-        <ul class="list-group vertical-list">
-          <li class="list-group-item" *ngFor="let guest of guests">
-            <img [src]="guest.avatar" alt="Avatar" class="avatar">
-            <span class="guest-name">{{ guest.name }}</span>
-          </li>
-        </ul>
-      </div>
       <div class="col-md-9">
         <h1>Granular Permissions for {{ dataRoomName }}</h1>
   
@@ -22,7 +13,7 @@
               <th>Data Room Name</th>
               <th>No Access</th>
               <th>View</th>
-              <th>Print</th>
+              
               <th>Edit</th>
             </tr>
           </thead>
@@ -38,9 +29,7 @@
               <td>
                 <input type="radio" [(ngModel)]="dataRoom.permission" [value]="'view'" name="{{'view_' + dataRoom.dataRoomName }}" />
               </td>
-              <td>
-                <input type="radio" [(ngModel)]="dataRoom.permission" [value]="'print'" name="{{'print_' + dataRoom.dataRoomName }}" />
-              </td>
+              
               <td>
                 <input type="radio" [(ngModel)]="dataRoom.permission" [value]="'edit'" name="{{'edit_' + dataRoom.dataRoomName }}" />
               </td>
@@ -51,7 +40,7 @@
     </div>
     <div>
       <button type="button" class="btn btn-primary" (click)="saveChanges()">Save</button>
-      <button type="button" class="btn btn-secondary" (click)="cancelChanges()">Cancel</button>
+    <!----  <button type="button" class="btn btn-secondary" (click)="cancelChanges()">Cancel</button> -->
     </div>
   </div>
   

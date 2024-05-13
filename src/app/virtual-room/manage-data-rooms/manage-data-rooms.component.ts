@@ -1,37 +1,53 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-interface dataRoom {
+interface DataRoom {
   selected?: boolean;
+  name: string;
+  owner: string;
+  views: number;
+  date: string;
+  status: string;
+  
 }
+
 @Component({
   selector: 'app-manage-data-rooms',
   templateUrl: './manage-data-rooms.component.html',
   styleUrls: ['./manage-data-rooms.component.scss']
 })
 export class ManageDataRoomsComponent implements OnInit {
+status: string;
+searchQuery = '';
 
-  @Input() dataRooms: any[] = []; // Correction du nom de l'entrée
+  @Input() dataRooms: DataRoom[] = []; // Receive dataRooms from parent component (optional)
 
   sortBy: string = 'newest';
 
   constructor() { }
 
   ngOnInit(): void {
-    // Initialize your data rooms data here
     this.initializeDataRooms();
-    // Sort data rooms based on default sort criteria
     this.sortDataRooms(this.sortBy);
   }
 
   initializeDataRooms() {
-    // Placeholder function to initialize data rooms data
-    // You should replace this with your actual data initialization logic
-    // For demonstration purposes, I'm just populating some dummy data
-    this.dataRooms = [
-      { name: 'E-tafakna', owner: 'Owner A', views: 100, date: '2024-04-28' },
-    
-      // Add more data rooms as needed
-    ];
+    // Provide initial data if not received from parent component
+    if (!this.dataRooms.length) {
+      this.dataRooms = [
+        { name: 'E-tafakna', owner: 'Norchen', views: 100, date: '2024-04-28', status: 'draft' },
+        { name: 'Tekupers', owner: 'Khaled', views: 100, date: '2024-04-28', status: 'send' }
+      ];
+    }
+  }
+  filterDataRooms() {
+    if (this.searchQuery) {
+      this.dataRooms = this.dataRooms.filter(room =>
+        room.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        room.owner.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    } else {
+      this.initializeDataRooms(); // Reset to original data
+    }
   }
 
   sortDataRooms(sortBy: string) {
@@ -54,27 +70,29 @@ export class ManageDataRoomsComponent implements OnInit {
     }
   }
 
-  viewDataRoom(index: number) {
-    // Implement logic to view the data room
-    console.log('View Data Room:', this.dataRooms[index]); // Placeholder for now
-  }
-
- selectAll(event: Event) {
+  selectAll(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
     this.dataRooms.forEach(room => room.selected = isChecked);
   }
+
+  editDataRoom(index: number) {
+    console.log('Edit Data Room:', this.dataRooms[index]);
+  
+  }
+
+  viewDataRoom(index: number) {
+    console.log('View Data Room:', this.dataRooms[index]);
+  }
+
   getDataRoomLink(index: number) {
-    // Implement logic to get the data room link
-    console.log('Get Data Room Link:', this.dataRooms[index]); // Placeholder for now
+    console.log('Get Data Room Link:', this.dataRooms[index]);
   }
 
   manageAccess(index: number) {
-    // Implement logic to manage access permissions for the data room
-    console.log('Manage Access:', this.dataRooms[index]); // Placeholder for now
+    console.log('Manage Access:', this.dataRooms[index]);
   }
 
   deleteDataRoom(index: number) {
-    this.dataRooms.splice(index, 1); // Remove the data room at the given index
+    this.dataRooms.splice(index, 1);
   }
-
 }

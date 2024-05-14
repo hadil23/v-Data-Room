@@ -35,7 +35,6 @@ virtualDataRooms: VirtualDataRoom[] = [];
   backToVirtualDataRoom(): void {
     this.router.navigate(['/virtual-data-room']);
   }
-  
   deletePanel(panel: Panel): void {
     this.draftService.deletePanel(this.virtualDataRooms.find(dataRoom => dataRoom.title === this.virtualDataRoomTitle), panel);
   }

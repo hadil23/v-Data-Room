@@ -12,8 +12,11 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="dataRoomName">Data Room Name</label>
-                <input type="text" class="form-control" id="dataRoomName" name="dataRoomName" formControlName="dataRoomName" required>
+                <label for="virtualDataRoomTitle">Data Room Name</label>
+                <input type="text" class="form-control" id="virtualDataRoomTitle" name="virtualDataRoomTitle" formControlName="virtualDataRoomTitle" required>
+                <mat-error *ngIf="dataRoomForm.get('virtualDataRoomTitle').hasError('required')">
+                  Data Room Name is required
+                </mat-error>
               </div>
             </div>
 
@@ -94,9 +97,11 @@
             <label for="selectedTime">Selected Time</label>
             <input type="text" class="form-control" id="selectedTime" name="selectedTime" [value]="selectedTime">
           </div>
+          <button class="btn btn-primary" (click)="GoToVirtualDataRoom()" >Go to Virtual Data Room</button>
 
-          <button type="submit" class="btn btn-primary" (click)="GoToVirtualDataRoom()">Create Data Room</button>
-        </div>
+
+
+         </div>
       </div>
     </div>
   </div>

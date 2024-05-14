@@ -12,6 +12,8 @@ import { GroupsComponent } from './groups/groups.component';
 import { VirtualDataRoomComponent } from './virtual-data-room/virtual-data-room.component';
 import { DraftComponent } from './draft/draft.component';
 import { EditDraftComponent } from './edit-draft/edit-draft.component';
+import { CommentComponent } from './comment/comment.component';
+
 
 const routes: Routes = [
   { path: 'ask-question', component: AskQuestionComponent },
@@ -26,7 +28,8 @@ const routes: Routes = [
   {path:'group',component:GroupsComponent},
   {path:'virtual-data-room',component:VirtualDataRoomComponent},
   {path:'draft', component:DraftComponent},
-  {path:'edit',component:EditDraftComponent}
+  {path:'edit',component:EditDraftComponent},
+  {path:'comment',component:CommentComponent}
 
 
 ];

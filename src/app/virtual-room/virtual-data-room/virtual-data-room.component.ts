@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./virtual-data-room.component.scss']
 })
 export class VirtualDataRoomComponent {
-  @Input() virtualDataRoomTitle: string = 'E-tafakna';
+  @Input() virtualDataRoomTitle: string = 'E-Tafakna';
   panels: Panel[] = [{ title: 'Legal Documents', files: [] }, { title: 'Financial Documents', files: [] }, { title: 'Products', files: [] }, { title: 'Intellectual Property', files: [] }];
   paneles: { title: string, files: any[] }[] = [];
   newPanelTitle: string = ''

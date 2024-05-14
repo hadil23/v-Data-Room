@@ -46,7 +46,7 @@ searchQuery = '';
         room.owner.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     } else {
-      this.initializeDataRooms(); // Reset to original data
+      this.initializeDataRooms(); 
     }
   }
 

@@ -1,0 +1,8 @@
+<div class="user-info">
+    <img class="rounded-circle photo-size" alt="avatar" src="{{ user.imgSrc }}">
+    <div class="user-details">
+      <span class="user-name">{{ user.name }}</span>
+      <span *ngIf="user.current" class="current-user-badge">You</span>
+    </div>
+  </div>
+  

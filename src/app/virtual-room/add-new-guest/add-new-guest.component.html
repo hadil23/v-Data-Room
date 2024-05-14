@@ -9,6 +9,9 @@
           <div class="form-group">
             <label for="invitation">Invitation</label>
             <input type="text" class="form-control" id="invitation" name="invitation" formControlName="invitation" required>
+            <mat-error *ngIf="GuestForm.get('invitation').hasError('required')">
+              Guest Invitation is required
+            </mat-error>
           </div>
         </div>
         <div class="col-md-6">
@@ -89,6 +92,9 @@
         <div class="form-group">
           <label for="message">Message</label>
           <input type="text" class="form-control" id="message" name="message" formControlName="message" required>
+          <mat-error *ngIf="GuestForm.get('message').hasError('required')">
+           Guest message is required
+          </mat-error>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Send Invitation</button>

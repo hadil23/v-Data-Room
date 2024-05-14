@@ -1,0 +1,47 @@
+<button nz-button nzType="primary" (click)="toggleDrawer()">Open</button>
+<nz-drawer
+  [nzClosable]="false"
+  [nzVisible]="visible"
+  nzPlacement="right"
+  nzTitle="Basic Drawer"
+  (nzOnClose)="closeDrawer()"
+>
+  <ng-container *nzDrawerContent>
+    <div class="comment-container">
+      <div class="comment-header">
+        <img [src]="imgSrc">
+        <p class="comment-author">{{ name }}</p>
+        <button *ngIf="currentName === name" class="edit-button" (click)="toggleEdit()"><i class="fas fa-comment"></i></button>
+      </div>
+      <div class="comment-body">
+        <p *ngIf="!edited" [innerHTML]="sanitizeHtml(comment.content)"></p>
+        <textarea *ngIf="edited" [(ngModel)]="comment.content" class="comment-textarea"></textarea>
+      </div>
+      <div class="comment-footer">
+        <div class="upvote-container">
+          <button class="upvote-button" (click)="upvote()"><mat-icon>thumb_up</mat-icon></button>
+          <p class="upvote-count">{{ numberOfUpvotes }}</p>
+        </div>
+        <div class="reply-container">
+          <button class="reply-button" (click)="toggleReplyBox()"><i class="fas fa-comments"></i></button>
+          <p class="reply-count">{{ allReplies.length }}</p>
+        </div>
+      </div>
+      <div class="reply-box" *ngIf="showReplyBox">
+        <textarea [(ngModel)]="reply" class="reply-textarea"></textarea>
+        <button class="reply-submit-button" (click)="createReply()"><mat-icon>send</mat-icon></button>
+      </div>
+      <div class="replies-container"
+         *ngFor="let reply of allReplies">
+                     [name]="reply.content"
+                     [imgSrc]="currentImgSrc"
+                     [currentName]="currentName"
+                     [currentImgSrc]="currentImgSrc"
+                     (replyCreated)="replyCreated.emit($event)">
+        
+      </div>
+    </div>
+  </ng-container>
+</nz-drawer>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">

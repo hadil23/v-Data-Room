@@ -38,26 +38,22 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FileUploadModule } from 'ng2-file-upload';
 import { SharedModule } from 'app/shared/shared.module';
 import { AddSectionDialogComponent } from './add-section-dialog/add-section-dialog.component';
-
 import { VirtualDataRoomComponent } from './virtual-data-room/virtual-data-room.component';
 import { ManageDataRoomsComponent } from './manage-data-rooms/manage-data-rooms.component';
 import { SearchModule } from 'app/shared/search/search.module';
-
 import { DraftComponent } from './draft/draft.component';
 import { ObserversModule } from '@angular/cdk/observers';
 import { EditDraftComponent } from './edit-draft/edit-draft.component';
-
-
-
-
-
+import { UserComponent } from './user/user.component';
+import { CommentComponent } from './comment/comment.component';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 @NgModule({
   declarations: [
     AskQuestionComponent,
+    
     ManageDataRoomsComponent,
     EditDraftComponent,
-
     CreateVirtualRoomComponent,
     AddNewGuestComponent,
     CreateGroupComponent,
@@ -66,13 +62,18 @@ import { EditDraftComponent } from './edit-draft/edit-draft.component';
     GroupsComponent,
     VirtualDataRoomComponent,
     AddSectionDialogComponent,
-     DraftComponent
+     DraftComponent,
+     UserComponent,
+     CommentComponent
+  
+
    
    
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    NzDrawerModule,
+       FormsModule,
     ObserversModule,
     SearchModule,
     SharedPipesModule,

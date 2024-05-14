@@ -1,38 +1,35 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AnimationEvent } from 'chart.js';
+
 
 @Component({
   selector: 'app-create-virtual-room',
   templateUrl: './create-virtual-room.component.html',
   styleUrls: ['./create-virtual-room.component.scss'],
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CreateVirtualRoomComponent),
-      multi: true
-    }
+    
   ]
 })
 export class CreateVirtualRoomComponent implements OnInit {
   showNavBar: boolean = true;
   dataRoomForm: FormGroup;
+  virtualDataRoomTitle:string;
   selectedAccessOption: string = 'off';
   expiryDate: Date;
   showDatePicker = false;
   expiryDateToggleControl: FormControl;
   selectedTime: string;
-
   showTimePicker: boolean = false;
   chosenTime: string;
- 
+  isFormValid: boolean = true; 
   
   constructor(private formBuilder: FormBuilder , private router: Router) {
-    this.initForm();
+   
   }
 
   ngOnInit(): void {
+    this.initForm();
   }
   toggleNavBarVisibility() {
     this.showNavBar = !this.showNavBar;
@@ -40,15 +37,16 @@ export class CreateVirtualRoomComponent implements OnInit {
 
   initForm(): void {
     this.dataRoomForm = this.formBuilder.group({
-      dataRoomName: ['', Validators.required],
+      virtualDataRoomTitle: ['', Validators.required],
       enforceEmailVerification: [false],
       defaultGuestPermission: ['View'],
       access: ['Only people i specify'],
       expiryDate: [null, Validators.required],
-      expiryDateToggleControl: [new Date(), Validators.required], // Corrected name here
+      expiryDateToggleControl: [new Date(), Validators.required], 
       termaccess: ['Off', Validators.required],
-      chosenDateTime: [new Date(), Validators.required], // Corrected name here
-      selectedTime: [new Date(), Validators.required] // Corrected name here
+      chosenDateTime: [new Date(), Validators.required], 
+      selectedTime: [new Date(), Validators.required] ,
+     
     });
     this.expiryDateToggleControl = this.dataRoomForm.get('expiryDateToggleControl') as FormControl;
   }
@@ -61,29 +59,37 @@ export class CreateVirtualRoomComponent implements OnInit {
   expiryDateToggleChanged(): void {
     this.showDatePicker = !this.showDatePicker;
   }
-
-  onSubmit(): void {
-    if (this.dataRoomForm.valid) {
-      const dataRoom = this.dataRoomForm.value;
-
-      if (this.expiryDate) {
-        const formattedExpiryDate = this.expiryDate.toISOString();
-        console.log(`Expiry date: ${formattedExpiryDate}`);
+  checkForEmptyvirtualDataRoomTitle(): void {
+    const virtualDataRoomTitleControl = this.dataRoomForm.get('virtualDataRoomTitle');
+  
+    if (virtualDataRoomTitleControl) {
+      if (virtualDataRoomTitleControl.hasError('required')) {
+        this.isFormValid = false;
       } else {
-        console.log('Expiry date not set');
+        this.isFormValid = this.dataRoomForm.valid;
       }
-    } else {
-      console.log("Le formulaire n'est pas valide");
     }
   }
   
-
+  onSubmit(): void {
+    console.log(this.dataRoomForm.value);
+    this.checkForEmptyvirtualDataRoomTitle();
+  
+    if (this.isFormValid) { 
+      this.GoToVirtualDataRoom();
+    } /*else {
+      console.log("Le formulaire n'est pas valide");
+    }*/
+  }
+  
+  GoToVirtualDataRoom(): void {
+    this.router.navigate(['/virtual-data-room']);
+  }
+  
   onTimeSet(event: any) {
     const selectedHour = event.hour < 10 ? '0' + event.hour : event.hour;
     const selectedMinute = event.minute < 10 ? '0' + event.minute : event.minute;
     this.selectedTime = `${selectedHour}:${selectedMinute}`;
   }
-  GoToVirtualDataRoom() :void {
-    this.router.navigate(['/virtual-data-room'])
-  } 
+ 
 }

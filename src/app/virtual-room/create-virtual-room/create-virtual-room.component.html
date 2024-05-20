@@ -1,9 +1,9 @@
-<app-sidebar-side></app-sidebar-side>
-<app-sidenav></app-sidenav>
-<div class="col-md-3 sideBar" *ngIf="showNavBar">
- <app-header-side></app-header-side>
-</div>
 <app-customizer (click)="toggleNavBarVisibility()"></app-customizer>
+<app-sidenav></app-sidenav>
+<div class="container">
+<div class="app-comment">
+  <app-comment></app-comment> 
+</div>
 <form [formGroup]="dataRoomForm" (ngSubmit)="onSubmit()">
   <div class="container">
     <div class="row">
@@ -105,4 +105,5 @@
       </div>
     </div>
   </div>
+  
 </form>

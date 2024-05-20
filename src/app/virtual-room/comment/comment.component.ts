@@ -2,10 +2,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Comment {
+  author: string;
   content: string;
   edited?: boolean;
   upvotes: number;
   replies: Comment[];
+  isEditing?: boolean; 
 }
 
 @Component({
@@ -14,44 +16,40 @@ interface Comment {
   styleUrls: ['./comment.component.scss']
 })
 export class CommentComponent implements OnInit {
-
-  @Input() name: string ='hela';
-  @Input() imgSrc: string ='assets/images/avatars/003-man-1.svg';
-  @Input() currentName: string;
-  @Input() currentImgSrc: string ='assets/images/avatars/002-woman.svg';
+  @Input() name: string = 'Ahmed';
+  @Input() imgSrc: string = 'assets/images/avatars/003-man-1.svg';
+  @Input() currentName: string = 'Hend';
+  @Input() currentImgSrc: string = 'assets/images/avatars/006-woman-1.svg';
 
   @Output() replyCreated: EventEmitter<Comment> = new EventEmitter<Comment>();
-  @Input() visible = false; // Input to control drawer visibility
-  @Output() closeDrawer = new EventEmitter<void>(); // Output to emit when closed
+  @Input() visible = false;
+  @Output() closeDrawer = new EventEmitter<void>();
 
-  comment: string = '';
+  newComment: string = '';
   reply: string = '';
-  commentEdit: boolean = false;
   showReplyBox: boolean = false;
-  edited: boolean = false;
-  numberOfUpvotes: number = 0; // Initialize numberOfUpvotes
-  allReplies: Comment[] = [];
-  disableEditButtons: boolean = true;
-  disableReplyEditButton: boolean = true;
-  isFirstToggle: boolean = true;
-  
-  constructor(private sanitizer: DomSanitizer) { }
+  numberOfUpvotes: number = 0;
+  allComments: Comment[] = [];
 
-  ngOnInit() {
-    this.disableEditButtons = this.comment.trim() === '';
-  }
-  
+  constructor(private sanitizer: DomSanitizer) {}
+
+  ngOnInit() {}
+
   open(): void {
-    this.visible = true;
+    this.visible = !this.visible;
   }
 
   close(): void {
     this.visible = false;
   }
+
   toggleDrawer() {
     this.visible = !this.visible;
   }
-  
+
+  toggleReplyBox() {
+    this.showReplyBox = !this.showReplyBox;
+  }
 
   sanitizeHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
@@ -61,18 +59,43 @@ export class CommentComponent implements OnInit {
     this.numberOfUpvotes += 1;
   }
 
-  createReply() {
+  upvoteReply(reply: Comment) {
+    reply.upvotes += 1;
+  }
+
+  createReply(parentComment: Comment) {
     if (this.reply.trim() !== '') {
       const newReply: Comment = {
+        author: this.currentName,
         content: this.reply,
         edited: false,
         upvotes: 0,
-        replies: []
+        replies: [],
+        isEditing: false
       };
-      this.allReplies.push(newReply);
+      parentComment.replies.push(newReply);
       this.replyCreated.emit(newReply);
       this.reply = '';
       this.showReplyBox = false;
     }
-  }  
+  }
+
+  addComment() {
+    if (this.newComment.trim() !== '') {
+      const newComment: Comment = {
+        author: this.currentName,
+        content: this.newComment,
+        edited: false,
+        upvotes: 0,
+        replies: [],
+        isEditing: false
+      };
+      this.allComments.push(newComment);
+      this.newComment = '';
+    }
+  }
+
+  toggleEdit(comment: Comment) {
+    comment.isEditing = !comment.isEditing;
+  }
 }

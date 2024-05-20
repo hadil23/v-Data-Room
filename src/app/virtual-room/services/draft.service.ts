@@ -70,6 +70,7 @@ deletePanel(dataRoom: VirtualDataRoom, panelToDelete: Panel): void {
     dataRoom.panels = dataRoom.panels.filter(panel => panel !== panelToDelete);
 }
 
+
  }
 
 

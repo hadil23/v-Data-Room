@@ -1,47 +1,82 @@
-<button nz-button nzType="primary" (click)="toggleDrawer()">Open</button>
-<nz-drawer
-  [nzClosable]="false"
-  [nzVisible]="visible"
-  nzPlacement="right"
-  nzTitle="Basic Drawer"
-  (nzOnClose)="closeDrawer()"
->
-  <ng-container *nzDrawerContent>
+
+<div class="body">
+<button nz-button nzType="primary" class="nz-button" (click)="open()">Comment</button>
+    <nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="visible"
+      nzPlacement="right"
+      nzTitle=""
+      (nzOnClose)="close()"
+    >
+      <ng-container *nzDrawerContent>
+<div class="comment-section">
+  <div class="add-comment-container">
+    <textarea [(ngModel)]="newComment" class="new-comment-textarea" placeholder="Write a comment..."></textarea>
+    <button class="add-comment-button" (click)="addComment()">+</button>
+  </div>
+
+  <div class="comments-container" *ngFor="let comment of allComments">
     <div class="comment-container">
       <div class="comment-header">
-        <img [src]="imgSrc">
-        <p class="comment-author">{{ name }}</p>
-        <button *ngIf="currentName === name" class="edit-button" (click)="toggleEdit()"><i class="fas fa-comment"></i></button>
+        <img [src]="imgSrc" alt="Author's image">
+        <p class="comment-author">{{ comment.author }}</p>
+        <button *ngIf="currentName === comment.author" class="edit-button" (click)="toggleEdit(comment)">
+          <i class="fas fa-edit"></i>
+        </button>
       </div>
       <div class="comment-body">
-        <p *ngIf="!edited" [innerHTML]="sanitizeHtml(comment.content)"></p>
-        <textarea *ngIf="edited" [(ngModel)]="comment.content" class="comment-textarea"></textarea>
+        <p *ngIf="!comment.isEditing" [innerHTML]="sanitizeHtml(comment.content)"></p>
+        <textarea *ngIf="comment.isEditing" [(ngModel)]="comment.content" class="comment-textarea"></textarea>
       </div>
       <div class="comment-footer">
         <div class="upvote-container">
-          <button class="upvote-button" (click)="upvote()"><mat-icon>thumb_up</mat-icon></button>
-          <p class="upvote-count">{{ numberOfUpvotes }}</p>
+          <button class="upvote-button" (click)="upvoteReply(comment)">
+            <mat-icon>thumb_up</mat-icon>
+          </button>
+          <p class="upvote-count">{{ comment.upvotes }}</p>
         </div>
         <div class="reply-container">
-          <button class="reply-button" (click)="toggleReplyBox()"><i class="fas fa-comments"></i></button>
-          <p class="reply-count">{{ allReplies.length }}</p>
+          <button class="reply-button" (click)="toggleReplyBox()">
+            <i class="fas fa-comments"></i>
+          </button>
+          <p class="reply-count">{{ comment.replies.length }}</p>
         </div>
       </div>
       <div class="reply-box" *ngIf="showReplyBox">
         <textarea [(ngModel)]="reply" class="reply-textarea"></textarea>
-        <button class="reply-submit-button" (click)="createReply()"><mat-icon>send</mat-icon></button>
+        <button class="reply-submit-button" (click)="createReply(comment)">
+          <mat-icon>send</mat-icon>
+        </button>
       </div>
-      <div class="replies-container"
-         *ngFor="let reply of allReplies">
-                     [name]="reply.content"
-                     [imgSrc]="currentImgSrc"
-                     [currentName]="currentName"
-                     [currentImgSrc]="currentImgSrc"
-                     (replyCreated)="replyCreated.emit($event)">
-        
+      <div class="replies-container" *ngFor="let reply of comment.replies">
+        <div class="comment-container">
+          <div class="comment-header">
+            <img [src]="currentImgSrc" alt="Reply author's image">
+            <p class="comment-author">{{ reply.author }}</p>
+          </div>
+          <div class="comment-body">
+            <p [innerHTML]="sanitizeHtml(reply.content)"></p>
+          </div>
+          <div class="comment-footer">
+            <div class="upvote-container">
+              <button class="upvote-button" (click)="upvoteReply(reply)">
+                <mat-icon>thumb_up</mat-icon>
+              </button>
+              <p class="upvote-count">{{ reply.upvotes }}</p>
+            </div>
+            <div class="reply-container">
+              <button class="reply-button" (click)="toggleReplyBox()">
+                <i class="fas fa-comments"></i>
+              </button>
+              <p class="reply-count">{{ reply.replies.length }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </ng-container>
-</nz-drawer>
+  </div>
+</div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</ng-container>
+</nz-drawer>

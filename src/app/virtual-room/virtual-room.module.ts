@@ -45,13 +45,14 @@ import { DraftComponent } from './draft/draft.component';
 import { ObserversModule } from '@angular/cdk/observers';
 import { EditDraftComponent } from './edit-draft/edit-draft.component';
 import { UserComponent } from './user/user.component';
-import { CommentComponent } from './comment/comment.component';
+
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { CommentComponent } from './comment/comment.component';
 
 @NgModule({
   declarations: [
     AskQuestionComponent,
-    
+    CommentComponent,
     ManageDataRoomsComponent,
     EditDraftComponent,
     CreateVirtualRoomComponent,
@@ -64,7 +65,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
     AddSectionDialogComponent,
      DraftComponent,
      UserComponent,
-     CommentComponent
+     
   
 
    

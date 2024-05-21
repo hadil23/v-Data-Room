@@ -34,6 +34,9 @@ export class CreateVirtualRoomComponent implements OnInit {
   toggleNavBarVisibility() {
     this.showNavBar = !this.showNavBar;
   }
+  goToComment():void{
+    this.router.navigate(['/comment'])
+  }
 
   initForm(): void {
     this.dataRoomForm = this.formBuilder.group({

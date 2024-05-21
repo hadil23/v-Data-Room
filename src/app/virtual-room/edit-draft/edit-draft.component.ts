@@ -2,9 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { VirtualDataRoom } from '../models/virtual-data-room';
 import { DraftService } from '../services/draft.service';
-import { Observable } from 'rxjs';
 import { Panel } from '../models/panel';
-
 
 @Component({
   selector: 'app-edit-draft',
@@ -14,30 +12,40 @@ import { Panel } from '../models/panel';
 export class EditDraftComponent implements OnInit {
   @Input() virtualDataRoomTitle: string = 'E-tafakna';
   @Input() panels: Panel[] = [{ title: 'Legal Documents', files: [] }, { title: 'Financial Documents', files: [] }, { title: 'Products', files: [] }, { title: 'Intellectual Property', files: [] }];
-virtualDataRooms: VirtualDataRoom[] = [];
+  virtualDataRooms: VirtualDataRoom[] = [];
+
   constructor(private draftService: DraftService, private router: Router) {}
- 
+
   ngOnInit(): void {
     this.virtualDataRooms = this.draftService.getVirtualDataRooms();
     console.log(this.virtualDataRooms); 
   }
 
   saveChanges(): void {
-    this.draftService.updateVirtualDataRoom({
+    const updatedVirtualDataRoom: VirtualDataRoom = {
       title: this.virtualDataRoomTitle,
       panels: this.panels
-    });
-  
-
-    console.log('Changes saved:', this.virtualDataRoomTitle, this.panels);
+    };
+    this.draftService.updateVirtualDataRoom(updatedVirtualDataRoom);
+    console.log('Changes saved:', updatedVirtualDataRoom);
   }
 
   backToVirtualDataRoom(): void {
     this.router.navigate(['/virtual-data-room']);
   }
-  deletePanel(panel: Panel): void {
-    this.draftService.deletePanel(this.virtualDataRooms.find(dataRoom => dataRoom.title === this.virtualDataRoomTitle), panel);
-  }
+
+deletePanel(panel: Panel): void {
+    const virtualDataRoom = this.virtualDataRooms.find(dataRoom => dataRoom.title === this.virtualDataRoomTitle);
+    if (virtualDataRoom) {
+      this.draftService.deletePanel(virtualDataRoom, panel);
+      // Réinitialiser les données après la suppression
+      this.virtualDataRooms = this.draftService.getVirtualDataRooms();
+    } else {
+      console.error(`Virtual data room with title '${this.virtualDataRoomTitle}' not found.`);
+    }
+}
+
+
   deleteFile(panelIndex: number, fileIndex: number): void {
     if (confirm("Are you sure you want to delete this file?")) {
       const panel = this.panels[panelIndex];
@@ -45,5 +53,3 @@ virtualDataRooms: VirtualDataRoom[] = [];
     }
   }
 }
-  
-

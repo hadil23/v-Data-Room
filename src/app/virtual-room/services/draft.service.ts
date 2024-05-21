@@ -67,7 +67,7 @@ export class DraftService {
 }
 
 deletePanel(dataRoom: VirtualDataRoom, panelToDelete: Panel): void {
-    dataRoom.panels = dataRoom.panels.filter(panel => panel !== panelToDelete);
+  dataRoom.panels = dataRoom.panels.filter(panel => panel !== panelToDelete);
 }
 
 

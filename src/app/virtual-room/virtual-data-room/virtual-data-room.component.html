@@ -7,10 +7,11 @@
 
 <div class="container">
   <h1>{{ virtualDataRoomTitle }}</h1>
-  <div class="button-container">
+   <div class="button-container">
     
     <button class=" btn btn-secondar" (click)="addNewSection()">Add New Section</button>
-    <div class="btn btn-secondar">Upload</div> 
+    
+      <app-comment></app-comment> 
     <div class="btn btn-secondar">Generate Documents</div> 
    
     </div>
@@ -67,7 +68,7 @@
   
  
 
-  <div class="button-container">
+  <div class="btn-container">
   
     <div class="btn btn-primar" (click)=" openAddGuestDialog()">Share</div>
     <div class="btn btn-primar" (click)=" goToDraft()">Save</div>

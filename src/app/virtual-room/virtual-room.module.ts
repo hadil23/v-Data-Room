@@ -48,11 +48,15 @@ import { UserComponent } from './user/user.component';
 
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { CommentComponent } from './comment/comment.component';
+import { DownloadComponent } from './download/download.component';
+import { ArchiveComponent } from './archive/archive.component';
+
 
 @NgModule({
   declarations: [
     AskQuestionComponent,
     CommentComponent,
+    DownloadComponent,
     ManageDataRoomsComponent,
     EditDraftComponent,
     CreateVirtualRoomComponent,
@@ -65,6 +69,8 @@ import { CommentComponent } from './comment/comment.component';
     AddSectionDialogComponent,
      DraftComponent,
      UserComponent,
+     ArchiveComponent
+    
      
   
 

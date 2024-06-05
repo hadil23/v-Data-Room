@@ -55,12 +55,14 @@
                               <li *ngIf="dataRoom.status === 'draft'">
                                 <button mat-menu-item (click)="editDataRoom(i)">Edit DataRoom</button>
                                 <button mat-menu-item (click)="deleteDataRoom(i)">Delete DataRoom</button>
+                                <button mat-menu-item (click)="download()">Download</button>
                               </li>
                               <li *ngIf="dataRoom.status !== 'draft'">
                                 <button mat-menu-item (click)="viewDataRoom(i)">View DataRoom</button>
                                 <button mat-menu-item (click)="getDataRoomLink(i)">Get DataRoom Link</button>
                                 <button mat-menu-item (click)="deleteDataRoom(i)">Delete DataRoom</button>
                                 <button mat-menu-item (click)="manageAccess(i)">Manage Access</button>
+                                
                               </li>
                             </ng-template>
                           </mat-menu>

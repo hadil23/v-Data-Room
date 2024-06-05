@@ -1,9 +1,11 @@
-<app-customizer (click)="toggleNavBarVisibility()"></app-customizer>
+<app-sidebar-side></app-sidebar-side>
 <app-sidenav></app-sidenav>
-<div class="container">
-<div class="app-comment">
-  <app-comment></app-comment> 
+<div class="col-md-3 sideBar" *ngIf="showNavBar">
+ <app-header-side></app-header-side>
 </div>
+<app-customizer (click)="toggleNavBarVisibility()"></app-customizer>
+<div class="container">
+
 <form [formGroup]="dataRoomForm" (ngSubmit)="onSubmit()">
   <div class="container">
     <div class="row">
@@ -25,9 +27,7 @@
                 <label for="access">Access</label>
                 <select class="form-control" id="access" formControlName="access" name="access">
                   <option value="Only people i specify">Only people I specify</option>
-                  <option value="View">View</option>
-                  <option value="Comment">Comment</option>
-                  <option value="Edit">Edit</option>
+                  <option value="Anyone with the link">Anyone with the link</option>
                 </select>
               </div>
             </div>
@@ -47,9 +47,10 @@
               <div class="form-group">
                 <label for="defaultGuestPermission">Default Guest Permission</label>
                 <select class="form-control" id="defaultGuestPermission" name="defaultGuestPermission" formControlName="defaultGuestPermission">
-                  <option value="View">View</option>
-                  <option value="Comment">Comment</option>
-                  <option value="Edit">Edit</option>
+                  <option value="No-Access">No Access</option>
+                  <option value="View"> Only View </option>
+                  <option value="Download">Download(PDF)</option>
+                  <option value="Edit">Full Access (Edit)</option>
                 </select>
               </div>
             </div>

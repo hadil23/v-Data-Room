@@ -56,9 +56,28 @@
     margin-bottom: 10%;
     margin-left: 70%; 
     display: flex;
-   justify-content:flex-start;
-   
+    align-items: center;
+    justify-content:flex-start;
+    gap: 7px;
   }
+  .btn-container{
+    margin-top: 40px;
+    margin-bottom: 10%;
+    margin-left: 75%; 
+    display: flex;
+    align-items: center;
+     justify-content:flex-start;
+     gap:7px;
+    
+  }
+  .button-container .btn {
+    margin: 0;
+    padding: 10px 20px; 
+}
+.app-comment {
+  flex-grow: 1; 
+  margin: 0 10px; 
+}
   .btn-primar{
    display: flex;
     flex-direction: row;
@@ -80,20 +99,18 @@
     
   }
   .btn-secondar{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 4%;
-    margin-left: 2%;
-    background-color: #007bff; 
-    color: #fff; 
-    border: none;
-    padding: 4px 12px;
-    border-radius: 13px;
-    height: 50px;
-    width: 110px;
-    justify-content:center
-    ;
-  
+  display: flex;
+  margin-top: 4%;
+  margin-left: auto;
+  background-color: #007bff; 
+  color: #fff; 
+  border: none;
+  padding: 4px 12px;
+  border-radius: 13px;
+  height: 40px;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
     cursor: pointer;
 
   }

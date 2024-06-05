@@ -13,7 +13,7 @@ import { VirtualDataRoomComponent } from './virtual-data-room/virtual-data-room.
 import { DraftComponent } from './draft/draft.component';
 import { EditDraftComponent } from './edit-draft/edit-draft.component';
 import { CommentComponent } from './comment/comment.component';
-
+import { DownloadComponent } from './download/download.component';
 
 const routes: Routes = [
   { path: 'ask-question', component: AskQuestionComponent },
@@ -29,7 +29,8 @@ const routes: Routes = [
   {path:'virtual-data-room',component:VirtualDataRoomComponent},
   {path:'draft', component:DraftComponent},
   {path:'edit',component:EditDraftComponent},
-  {path:'comment',component:CommentComponent}
+  {path:'comment',component:CommentComponent},
+  {path:'download',component:DownloadComponent}
 
 
 ];

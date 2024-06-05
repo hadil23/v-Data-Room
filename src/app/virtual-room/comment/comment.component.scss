@@ -1,11 +1,53 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  overflow-x: auto;
+.comment-section {
+  position: fixed;
+  top: 14%;
+  right: 0;
+  width: 300px; /* Adjuster la largeur selon vos besoins */
+  height: 100%;
+  background-color: #fff;
+  z-index: 1000; /* Assurez-vous que ce z-index est supérieur à celui de la nav/headerbar */
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
 }
+
+.comment-section-content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.add-comment-container, .comment-container, .reply-box, .replies-container {
+  padding: 10px;
+}
+
+.new-comment-textarea, .comment-textarea, .reply-textarea {
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.add-comment-button, .reply-submit-button {
+  margin-top: 10px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+}
+
+.comment-author {
+  margin-left: 10px;
+}
+
+.edit-button, .upvote-button, .reply-button {
+  margin-left: auto;
+}
+
+.upvote-container, .reply-container {
+  display: flex;
+  align-items: center;
+}
+
 
 .comment-section {
   max-width: 800px;
@@ -134,7 +176,7 @@ body {
   color: #080bb0;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
   .comment-section {
     margin: 10px;
@@ -156,4 +198,14 @@ body {
     width: 100%;
     justify-content: center;
   }
+}
+.close-button {
+
+  top: 0;
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin: 10px;
 }

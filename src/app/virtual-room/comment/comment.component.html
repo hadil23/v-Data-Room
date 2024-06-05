@@ -9,8 +9,9 @@
       (nzOnClose)="close()"
     >
       <ng-container *nzDrawerContent>
-<div class="comment-section">
-  <div class="add-comment-container">
+    <div class="comment-section">
+    <button class="close-button" (click)="close()"><mat-icon>close</mat-icon></button>
+    <div class="add-comment-container">
     <textarea [(ngModel)]="newComment" class="new-comment-textarea" placeholder="Write a comment..."></textarea>
     <button class="add-comment-button" (click)="addComment()">+</button>
   </div>

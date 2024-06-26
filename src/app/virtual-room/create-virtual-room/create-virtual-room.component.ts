@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { VirtualRoomService } from '../services/virtual-room.service';
 
 export enum Permission {
   NoAccess = 'No Access',
-  View = 'View',
+  OnlyView = 'Only View',
   Download = 'Download',
   Edit = 'Edit'
 }
@@ -15,8 +15,7 @@ export enum Permission {
   templateUrl: './create-virtual-room.component.html',
   styleUrls: ['./create-virtual-room.component.scss']
 })
-
- export class CreateVirtualRoomComponent implements OnInit {
+export class CreateVirtualRoomComponent implements OnInit {
   showNavBar = true;
   dataRoomForm: FormGroup;
   selectedAccessOption: string = 'off';
@@ -28,15 +27,13 @@ export enum Permission {
   chosenTime: string = '';
   isFormValid = true;
 
-  @Output() virtualDataRoomCreated = new EventEmitter<VirtualDataRoomPrivileges>();
+  permissionOptions = Object.values(Permission);
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private virtualRoomService: VirtualRoomService) { }
 
   ngOnInit(): void {
     this.initForm();
   }
-
- 
 
   toggleNavBarVisibility() {
     this.showNavBar = !this.showNavBar;
@@ -49,11 +46,9 @@ export enum Permission {
   initForm(): void {
     this.dataRoomForm = this.formBuilder.group({
       virtualDataRoomTitle: ['', Validators.required],
-      enforceEmailVerification: [false],
-      defaultGuestPermission: ['View'],
-      access: ['Only people i specify'],
+      defaultGuestPermission: [Permission.NoAccess, Validators.required],
+      access: ['Only people I specify', Validators.required],
       expiryDate: [null, Validators.required],
-      termaccess: ['Off', Validators.required], 
       chosenDateTime: [new Date(), Validators.required],
       selectedTime: ['', Validators.required]
     });
@@ -71,28 +66,39 @@ export enum Permission {
 
   checkForEmptyvirtualDataRoomTitle(): void {
     const virtualDataRoomTitleControl = this.dataRoomForm.get('virtualDataRoomTitle');
-
     if (virtualDataRoomTitleControl) {
       this.isFormValid = virtualDataRoomTitleControl.valid;
     }
   }
 
-  onSubmit(): void {
-    console.log(this.dataRoomForm.value);
+  goToVirtualDataRoom(): void {
     this.checkForEmptyvirtualDataRoomTitle();
-
     if (this.isFormValid) {
-      const privileges = this.dataRoomForm.value as VirtualDataRoomPrivileges;
-      this.virtualDataRoomCreated.emit(privileges);
-
-      // Navigate to virtual-data-room with privileges (assuming data persistence)
-      this.router.navigate(['/virtual-data-room'], { queryParams: privileges });
+      const virtualRoomData = {
+        name: this.dataRoomForm.value.virtualDataRoomTitle,
+        defaultGuestPermission: this.dataRoomForm.value.defaultGuestPermission,
+        access: this.dataRoomForm.value.access,
+        expiry: this.dataRoomForm.value.expiryDate
+      };
+  
+      console.log('Submitting form data:', virtualRoomData);
+      this.virtualRoomService.createVirtualDataRoom(virtualRoomData).subscribe(
+        (response: any) => {
+          console.log('Virtual Data Room created:', response);
+          const virtualRoomId = response?.data[0]?.id; // Use optional chaining
+  
+          if (virtualRoomId) {
+            const title = virtualRoomData.name;
+            this.router.navigate(['/virtual-data-room'], { queryParams: { id: virtualRoomId ,title}, });
+          } else {
+            console.error('Error: Could not retrieve virtual data room ID');
+          }
+        },
+        error => {
+          console.error('Error creating virtual data room:', error);
+        }
+      );
     }
-  }
-
-  GoToVirtualDataRoom(): void {
-    this.router.navigate(['/virtual-data-room'], { queryParams: { title: this.dataRoomForm.value.virtualDataRoomTitle } });
-
   }
 
   onTimeSet(event: any) {
@@ -101,16 +107,3 @@ export enum Permission {
     this.selectedTime = `${selectedHour}:${selectedMinute}`;
   }
 }
-
-
-export interface VirtualDataRoomPrivileges {
-  virtualDataRoomTitle: string;
-  enforceEmailVerification: boolean;
-  defaultGuestPermission: Permission;
-  access: string;
-  expiryDate: Date | null;
-  termAccess: string; 
-  chosenDateTime: Date;
-  selectedTime: string;
-}
-

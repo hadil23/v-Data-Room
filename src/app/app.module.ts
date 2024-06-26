@@ -30,6 +30,7 @@ import { AddGroupComponent } from './virtual-room/add-group/add-group.component'
 
 
 
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);

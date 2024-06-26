@@ -6,7 +6,7 @@
 <app-customizer (click)="toggleNavBarVisibility()"></app-customizer>
 <div class="container">
 
-<form [formGroup]="dataRoomForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="dataRoomForm" (ngSubmit)="goToVirtualDataRoom()">
   <div class="container">
     <div class="row">
       <div class="col-md-9">
@@ -36,12 +36,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <div class="form-check">
-                  <label class="form-check-label" for="enforceEmailVerification">
-                    <input type="checkbox" class="form-check-input" id="enforceEmailVerification" name="enforceEmailVerification" formControlName="enforceEmailVerification">
-                    Enforce Email Verification
-                  </label>
-                </div>
+               
               </div>
 
               <div class="form-group">
@@ -55,16 +50,7 @@
               </div>
             </div>
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="termaccess">Terms of Access</label>
-                <select class="form-control" id="termaccess" formControlName="termaccess" name="termaccess">
-                  <option value="Off">Off</option>
-                  <option value="organisation">Use Organisation Terms</option>
-                  <option value="custom">Use Custom Terms</option>
-                </select>
-              </div>
-            </div>
+          
           </div>
 
           <div class="form-group">
@@ -94,11 +80,12 @@
             </div>
           </div>
 
-          <div class="form-group" *ngIf="showTimePicker">
+       <!----  <div class="form-group" *ngIf="showTimePicker">
             <label for="selectedTime">Selected Time</label>
             <input type="text" class="form-control" id="selectedTime" name="selectedTime" [value]="selectedTime">
-          </div>
-          <button class="btn btn-primary" (click)="GoToVirtualDataRoom()" >Go to Virtual Data Room</button>
+          </div>  -->
+     
+            <button (click)="goToVirtualDataRoom()">Go to Virtual Data Room</button>
 
 
 

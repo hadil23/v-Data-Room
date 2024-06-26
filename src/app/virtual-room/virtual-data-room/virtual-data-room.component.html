@@ -45,34 +45,15 @@
       </mat-accordion>
     </div>
   </div>
-  <div class="accordion-container">
-    <mat-accordion>
-      <div class="col" *ngFor="let panel of paneles">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title class="panel-title">
-              <div class="title-container">
-                <h3>{{ panel.title }}</h3>
-              </div>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-  
-          <div class="add-file-button">
-            </div>
-        </mat-expansion-panel>
-      </div>
-      
-    </mat-accordion>
-    
-  </div>
-  
+ 
  
 
   <div class="btn-container">
   
     <div class="btn btn-primar" (click)=" openAddGuestDialog()">Share</div>
-    <div class="btn btn-primar" (click)=" goToDraft()">Save</div>
-   
+
+    <button class="btn btn-primar"  (click)=" createPanel()">Enregistrer</button>
+
 
 
   </div>

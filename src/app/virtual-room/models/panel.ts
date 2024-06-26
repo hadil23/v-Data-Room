@@ -1,4 +1,5 @@
 export interface Panel {
+    
     title: string;
     files: File[]; 
   }

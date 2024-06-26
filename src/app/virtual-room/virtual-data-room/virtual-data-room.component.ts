@@ -1,39 +1,82 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AddNewGuestComponent } from '../add-new-guest/add-new-guest.component';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddSectionDialogComponent } from '../add-section-dialog/add-section-dialog.component';
-import { AnimationEvent } from 'chart.js';
 import { DraftService } from '../services/draft.service';
 import { Panel } from '../models/panel';
-import { HttpClient } from '@angular/common/http';
-import { VirtualDataRoomPrivileges } from '../create-virtual-room/create-virtual-room.component';
+import { VirtualRoomService } from '../services/virtual-room.service';
 
 @Component({
   selector: 'app-virtual-data-room',
   templateUrl: './virtual-data-room.component.html',
   styleUrls: ['./virtual-data-room.component.scss']
 })
-export class VirtualDataRoomComponent implements OnInit{
-  privileges: VirtualDataRoomPrivileges | null = null;
+export class VirtualDataRoomComponent implements OnInit {
+  privileges: any | null = null;
   @Input() virtualDataRoomTitle: string = '';
-  panels: Panel[] = [{ title: 'Legal Documents', files: [] }, { title: 'Financial Documents', files: [] }, { title: 'Products', files: [] }, { title: 'Intellectual Property', files: [] }];
-  paneles: { title: string, files: any[] }[] = [];
-  newPanelTitle: string = ''
+  @Input() access: string = '';
+  @Input() defaultGuestPermission: any;
+  @Input() expiryDate: Date;
+  panels: Panel[] = [
+    { title: 'Legal Documents', files: [] },
+    { title: 'Financial Documents', files: [] },
+    { title: 'Products', files: [] },
+    { title: 'Intellectual Property', files: [] }
+  ];
+  newPanelTitle: string = '';
   showNavBar: boolean = true;
   @ViewChild('addPanelDialog') addPanelDialog: any;
 
-  constructor(private router: Router, public dialog: MatDialog, private draftService: DraftService, private http: HttpClient, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private draftService: DraftService,
+    private activatedRoute: ActivatedRoute,
+    private virtualRoomService: VirtualRoomService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
+      // ...
       this.virtualDataRoomTitle = params['title'];
-    });
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.privileges = params as VirtualDataRoomPrivileges; // Assuming privileges are passed as query params
+      const virtualRoomIdString = params['id'];
+      console.log('VirtualRoomId:', virtualRoomIdString);
+      const virtualRoomId = parseInt(virtualRoomIdString, 10);
+      if (!isNaN(virtualRoomId)) {
+        this.virtualRoomService.setVirtualRoomId(virtualRoomId);
+      } else {
+        console.error('Invalid virtualRoomId:', virtualRoomIdString);
+      }
     });
   }
+  
+  
+  
+
+  createPanel(): void {
+    this.virtualRoomService.getVirtualRoomId().subscribe(vdrId => {
+      if (vdrId!== null) {
+        const panelTitle = this.newPanelTitle.trim(); // Trim the title to remove any whitespace
+        if (panelTitle!== '') { // Check if the title is not empty
+          this.virtualRoomService.createPanel(vdrId.toString(), panelTitle).subscribe(
+            response => {
+              console.log('Panel créé avec succès :', response);
+              // Traitez la réponse de l'API si nécessaire
+            },
+            error => {
+              console.error('Erreur lors de la création du panel :', error);
+            }
+          );
+        } else {
+          console.error('Le titre du panel est vide');
+        }
+      }
+    });
+  }
+
   toggleNavBarVisibility() {
     this.showNavBar = !this.showNavBar;
   }
@@ -72,8 +115,6 @@ export class VirtualDataRoomComponent implements OnInit{
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const fileReader = new FileReader();
-
-      
     }
   }
 
@@ -82,10 +123,12 @@ export class VirtualDataRoomComponent implements OnInit{
       width: '250px',
       data: { title: '' }
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.panels.push({ title: result, files: [] });
+        this.newPanelTitle = result;
+      this.panels.push({ title: result, files: [] });
+        this.cd.detectChanges();
       }
     });
   }
@@ -101,19 +144,10 @@ export class VirtualDataRoomComponent implements OnInit{
   }
 
   GoToPermission(): void {
-    this.router.navigate(['/permission'])
-
+    this.router.navigate(['/permission']);
   }
 
   goToAddNewGuest(): void {
-    this.router.navigate(['/add-new-guest'])
-  }
-
-  goToDraft(): void {
-    this.draftService.saveVirtualDataRooms({
-      title: this.virtualDataRoomTitle,
-      panels: this.panels
-    });
-    this.router.navigate(['/edit']);
+    this.router.navigate(['/add-new-guest']);
   }
 }

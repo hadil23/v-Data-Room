@@ -18,6 +18,7 @@ import { DownloadComponent } from './download/download.component';
 const routes: Routes = [
   { path: 'ask-question', component: AskQuestionComponent },
   {path:'create-virtual-room',component:CreateVirtualRoomComponent},
+  { path: 'virtual-data-room/:id', component: VirtualDataRoomComponent },
   {path:'add-new-guest',component:AddNewGuestComponent},
 
   {path:'create-group',component:CreateGroupComponent},

@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { SharedComponentsModule } from 'app/shared/components/shared-components.module';
 import { MatSelectModule } from '@angular/material/select';
-import { AddNewGuestComponent } from './add-new-guest/add-new-guest.component';
+
 import { UtilitiesModule } from 'app/views/utilities/utilities.module';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { PermissionOverviewComponent } from './permission-overview/permission-overview.component';
@@ -50,17 +50,23 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { CommentComponent } from './comment/comment.component';
 import { DownloadComponent } from './download/download.component';
 import { ArchiveComponent } from './archive/archive.component';
+import { AddNewGuestComponent } from './add-new-guest/add-new-guest.component';
+
+
+
+
 
 
 @NgModule({
   declarations: [
+    AddNewGuestComponent,
     AskQuestionComponent,
     CommentComponent,
     DownloadComponent,
     ManageDataRoomsComponent,
     EditDraftComponent,
     CreateVirtualRoomComponent,
-    AddNewGuestComponent,
+    
     CreateGroupComponent,
     PermissionOverviewComponent,
     GuestsComponent,
@@ -123,6 +129,7 @@ import { ArchiveComponent } from './archive/archive.component';
     FileUploadModule,
   SharedModule,
   SharedComponentsModule,
+  
 
 
 

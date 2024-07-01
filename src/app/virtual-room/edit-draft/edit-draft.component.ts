@@ -11,7 +11,7 @@ import { Panel } from '../models/panel';
 })
 export class EditDraftComponent implements OnInit {
   @Input() virtualDataRoomTitle: string = 'E-tafakna';
-  @Input() panels: Panel[] = [{ title: 'Legal Documents', files: [] }, { title: 'Financial Documents', files: [] }, { title: 'Products', files: [] }, { title: 'Intellectual Property', files: [] }];
+  @Input() panels: Panel[] = [{id:'1', title: 'Legal Documents', files: [] }, {id:'2', title: 'Financial Documents', files: [] }, { id:'3',title: 'Products', files: [] }, {id:'4', title: 'Intellectual Property', files: [] }];
   virtualDataRooms: VirtualDataRoom[] = [];
 
   constructor(private draftService: DraftService, private router: Router) {}

@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { VirtualRoomModule } from './virtual-room/virtual-room.module';
+
 import { VirtualRoomRoutingModule } from './virtual-room/virtual-room.routing';
 // import { GestureConfig } from '@angular/material/core';
 import { 
@@ -27,6 +27,8 @@ import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import { FormsModule } from '@angular/forms';
 import { DashboardModule } from './views/dashboard/dashboard.module';
 import { AddGroupComponent } from './virtual-room/add-group/add-group.component';
+import { VirtualRoomModule } from './virtual-room/virtual-room.module';
+
 
 
 
@@ -42,11 +44,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
   imports: [
-    BrowserModule,
-    VirtualRoomModule,
-    FormsModule,
-    VirtualRoomRoutingModule,
+    
     DashboardModule,
+    VirtualRoomModule,
+    BrowserModule,
+        FormsModule,
+    VirtualRoomRoutingModule,
+   
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,

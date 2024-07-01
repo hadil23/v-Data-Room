@@ -7,6 +7,8 @@ import { AddSectionDialogComponent } from '../add-section-dialog/add-section-dia
 import { DraftService } from '../services/draft.service';
 import { Panel } from '../models/panel';
 import { VirtualRoomService } from '../services/virtual-room.service';
+import { CloudinaryService } from '../services/CloudinaryService';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-virtual-data-room',
@@ -20,14 +22,15 @@ export class VirtualDataRoomComponent implements OnInit {
   @Input() defaultGuestPermission: any;
   @Input() expiryDate: Date;
   panels: Panel[] = [
-    { title: 'Legal Documents', files: [] },
-    { title: 'Financial Documents', files: [] },
-    { title: 'Products', files: [] },
-    { title: 'Intellectual Property', files: [] }
+    { id: '1', title: 'Legal Documents', files: [] },
+    { id: '2', title: 'Financial Documents', files: [] },
+    { id: '3', title: 'Products', files: [] },
+    { id: '4', title: 'Intellectual Property', files: [] }
   ];
   newPanelTitle: string = '';
   showNavBar: boolean = true;
   @ViewChild('addPanelDialog') addPanelDialog: any;
+  private apiUrl = 'http://localhost:3000/api/files'; // Déclaration de l'URL API
 
   constructor(
     private router: Router,
@@ -35,12 +38,13 @@ export class VirtualDataRoomComponent implements OnInit {
     private draftService: DraftService,
     private activatedRoute: ActivatedRoute,
     private virtualRoomService: VirtualRoomService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private cloudinaryService: CloudinaryService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      // ...
       this.virtualDataRoomTitle = params['title'];
       const virtualRoomIdString = params['id'];
       console.log('VirtualRoomId:', virtualRoomIdString);
@@ -52,15 +56,12 @@ export class VirtualDataRoomComponent implements OnInit {
       }
     });
   }
-  
-  
-  
 
   createPanel(): void {
     this.virtualRoomService.getVirtualRoomId().subscribe(vdrId => {
-      if (vdrId!== null) {
-        const panelTitle = this.newPanelTitle.trim(); // Trim the title to remove any whitespace
-        if (panelTitle!== '') { // Check if the title is not empty
+      if (vdrId !== null) {
+        const panelTitle = this.newPanelTitle.trim();
+        if (panelTitle !== '') {
           this.virtualRoomService.createPanel(vdrId.toString(), panelTitle).subscribe(
             response => {
               console.log('Panel créé avec succès :', response);
@@ -97,7 +98,7 @@ export class VirtualDataRoomComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.panels.push({ title: result, files: [] });
+        this.panels.push({ id: Date.now().toString(), title: result, files: [] });
       }
     });
   }
@@ -111,23 +112,16 @@ export class VirtualDataRoomComponent implements OnInit {
     }
   }
 
-  addFileToPanel(panel: Panel, files: FileList) {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const fileReader = new FileReader();
-    }
-  }
-
   addNewSection(): void {
     const dialogRef = this.dialog.open(AddSectionDialogComponent, {
       width: '250px',
       data: { title: '' }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.newPanelTitle = result;
-      this.panels.push({ title: result, files: [] });
+        this.panels.push({ id: Date.now().toString(), title: result, files: [] });
         this.cd.detectChanges();
       }
     });
@@ -149,5 +143,59 @@ export class VirtualDataRoomComponent implements OnInit {
 
   goToAddNewGuest(): void {
     this.router.navigate(['/add-new-guest']);
+  }
+  addFileToPanel(panel: any, files: FileList) {
+    const preset = 'ml_default'; // Adjust the preset as needed
+    const userId = '2'; // Replace with dynamically retrieved user ID
+    const panelId = panel.id; // Assuming panel ID is already set correctly
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      this.cloudinaryService.uploadFile(file, preset)
+        .then((result) => {
+          console.log('File uploaded to Cloudinary:', result);
+
+          const fileUrl = result.secure_url; // Adjust this according to Cloudinary response
+
+          this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, panelId)
+            .subscribe(
+              (response) => {
+                console.log('File URL saved to database successfully:', response);
+              },
+              (error) => {
+                console.error('Error saving file URL to database:', error);
+              }
+            );
+        })
+        .catch((error) => {
+          console.error('Error uploading file to Cloudinary:', error);
+        });
+    }
+  }
+
+  loadPanels(): void {
+    // Exemple de chargement des panels depuis une API (adapté à votre logique)
+    this.http.get<Panel[]>('/api/panels').subscribe(
+      (panels) => {
+        this.panels = panels;
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des panels:', error);
+      }
+    );
+  }
+
+  getFilesForPanel(panelId: string): void {
+    // Méthode pour récupérer les fichiers d'un panel spécifique
+    this.http.get<File[]>(`/api/files?panel_id=${panelId}`).subscribe(
+      (files) => {
+        console.log(`Fichiers pour le panel avec l'ID ${panelId}:`, files);
+        // Faites quelque chose avec les fichiers récupérés
+      },
+      (error) => {
+        console.error(`Erreur lors de la récupération des fichiers pour le panel avec l'ID ${panelId}:`, error);
+      }
+    );
   }
 }

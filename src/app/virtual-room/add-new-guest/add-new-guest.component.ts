@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-add-new-guest',
@@ -7,46 +7,59 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./add-new-guest.component.scss']
 })
 export class AddNewGuestComponent implements OnInit {
-  GuestForm: FormGroup;
-  startsToggleControl: FormControl;
-  endsToggleControl: FormControl;
-  showDatePicker: boolean = false; // Ajoutez cette propriété
+  email: string = '';
+  firstName: string = '';
+  lastName: string = '';
+  newEmail: string = '';
+  newFirstName: string = '';
+  newLastName: string = '';
+  showNewUser: boolean = false;
+  emailRequired: boolean = false;
+  newEmailRequired: boolean = false;
+  formValid: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.initForm();
+    this.showNewUser = false;
+    this.emailRequired = false;
+    this.newEmailRequired = false;
   }
 
-  initForm(): void {
-    this.GuestForm = this.formBuilder.group({
-      invitation: ['', Validators.required],
-      permission: ['no access', Validators.required],
-      accessExpiry: ['1', Validators.required],
-      startsToggleControl: [false],
-      endsToggleControl: [false],
-      chosenDateTime: [new Date(), Validators.required],
-      message: ['', Validators.required]
-    });
-
-    this.startsToggleControl = this.GuestForm.get('startsToggleControl') as FormControl;
-    this.endsToggleControl = this.GuestForm.get('endsToggleControl') as FormControl;
+  onSubmit(inviteForm: NgForm): void {
+    console.log('Invite new users:', inviteForm.value);
   }
 
-  onSubmit(): void {
-    if (this.GuestForm.valid) {
-      // Submit the form data
-      console.log(this.GuestForm.value);
-    } else {
-      console.log("Form is invalid");
-    }
+  onCancel(): void {
+    this.email = '';
+    this.firstName = '';
+    this.lastName = '';
+    this.newEmail = '';
+    this.newFirstName = '';
+    this.newLastName = '';
+    this.showNewUser = false;
+    this.emailRequired = false;
+    this.newEmailRequired = false;
   }
 
-  startsToggleChanged(): void {
-    // Handle starts toggle change event
+  onAddUser(): void {
+    this.showNewUser = true;
   }
 
-  endsToggleChanged(): void {
-    // Handle ends toggle change event
+  validateEmail(email: string): void {
+    this.emailRequired = !email;
+  }
+
+  validateNewEmail(newEmail: string): void {
+    this.newEmailRequired = !newEmail;
+  }
+
+  getFormValid(): boolean {
+    return !!(
+      this.email &&
+      this.firstName &&
+      this.lastName &&
+      (!this.showNewUser || (this.newEmail && this.newFirstName && this.newLastName))
+    );
   }
 }

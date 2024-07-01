@@ -9,7 +9,7 @@ import { SharedPipesModule } from "app/shared/pipes/shared-pipes.module";
 import { DashboardRoutes } from "./dashboard.routing";
 import { AnalyticsComponent } from "./analytics/analytics.component";
 import { HomeComponent } from './home/home.component';
-import { VirtualRoomModule } from "app/virtual-room/virtual-room.module";
+
 import { SharedModule } from "app/shared/shared.module";
 import { SharedComponentsModule } from "app/shared/components/shared-components.module";
 import { FormsModule } from "@angular/forms";
@@ -21,7 +21,7 @@ import { FormsModule } from "@angular/forms";
     SharedModule,
     SharedComponentsModule,
     FormsModule,
-    VirtualRoomModule,
+   
     FlexLayoutModule,
     NgChartsModule,
     NgxEchartsModule.forRoot({

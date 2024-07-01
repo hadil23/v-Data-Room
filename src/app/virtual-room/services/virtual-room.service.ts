@@ -60,14 +60,18 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
     return this.http.post<any>(url, data);
   }
   // virtual-room.service.ts
-uploadFilesToPanel(panelId: string, files: File[]): Observable<any> {
-  const formData = new FormData();
-  files.forEach(file => {
-    formData.append('files', file, file.name);
-  });
+  uploadFilesToPanel(panelId: string, files: File[]): Observable<any> {
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append('files', file, file.name);
+    });
 
-  const url = `${this.backendUrl}/api/files`;
-  return this.http.post<any>(url, formData);
-}
+    const url = `${this.backendUrl}/api/files`;
+    return this.http.post<any>(url, formData);
+  }
+  saveFileUrlToDatabase(fileUrl: string, userId: string, panelId: string): Observable<any> {
+    const url = `${this.backendUrl}/api/files`;
+    return this.http.post<any>(url, { url: fileUrl, user_id: userId, panel_id: panelId });
+  }
 
 }

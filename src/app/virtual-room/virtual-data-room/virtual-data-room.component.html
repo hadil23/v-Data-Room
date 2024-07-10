@@ -10,7 +10,9 @@
   <div class="button-container">
     <button class="btn btn-secondary" (click)="addNewSection()">Add New Section</button>
     <app-comment></app-comment>
-    <div class="btn btn-secondary">Generate Documents</div>
+    <button class="btn btn-secondary" (click)="downloadAllFiles()" >Télécharger</button>
+
+    
   </div>
   <br>
   <div class="accordion-container">
@@ -46,5 +48,13 @@
 
 <div class="btn-container">
   <div class="btn btn-primary" (click)="openAddGuestDialog()">Share</div>
-  <button class="btn btn-primary" (click)="createPanel()">Enregistrer</button>
+  <button class="btn btn-primary" (click)="saveChanges()">Enregistrer</button>
+  <button class="btn btn-primary"  (click)="onEditClick()" [disabled]="!canEdit" 
+[ngClass]="{'disabled-button': !canEdit}"
+>
+  Edit
+</button>
+
+
+
 </div>

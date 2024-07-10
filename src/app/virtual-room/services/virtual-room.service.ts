@@ -38,7 +38,13 @@ export class VirtualRoomService {
     const url = `${this.backendUrl}/api/panel/`;
     return this.http.post<any>(url, panelData);
   }
-
+  getVirtualDataRoom(virtualDataRoomId: number): Observable<any> {
+    return this.http.get(`${this.backendUrl}/virtualDataRooms/virtualDataRooms/${virtualDataRoomId}`);
+  }
+  getAllVirtualDataRooms(): Observable<any[]> {
+    const url = `${this.backendUrl}/api/virtualDataRooms/virtualDataRooms`;
+    return this.http.get<any[]>(url);
+  }
 // virtual-room.service.ts
 addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any> {
   // Ajouter l'identifiant de la salle de données virtuelle aux données du panel
@@ -72,6 +78,10 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
   saveFileUrlToDatabase(fileUrl: string, userId: string, panelId: string): Observable<any> {
     const url = `${this.backendUrl}/api/files`;
     return this.http.post<any>(url, { url: fileUrl, user_id: userId, panel_id: panelId });
+  }
+  checkInvitationTab(): Observable<any> {
+    const url = `${this.backendUrl}/api/virtualDataRooms/checkInvitationTab`;
+    return this.http.get<any>(url);
   }
 
 }

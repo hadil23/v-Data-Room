@@ -10,6 +10,12 @@
    
     
   }
+  /* virtual-data-room.component.scss */
+.disabled-button {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
   .col{
     margin-bottom: 5%;
     margin-top: 2%;

@@ -46,8 +46,8 @@ export class CreateVirtualRoomComponent implements OnInit {
   initForm(): void {
     this.dataRoomForm = this.formBuilder.group({
       virtualDataRoomTitle: ['', Validators.required],
-      defaultGuestPermission: [Permission.NoAccess, Validators.required],
-      access: ['Only people I specify', Validators.required],
+      defaultGuestPermission: [Permission.Download, Validators.required],
+      access: ['specified_people', Validators.required],
       expiryDate: [null, Validators.required],
       chosenDateTime: [new Date(), Validators.required],
       selectedTime: ['', Validators.required]
@@ -71,35 +71,44 @@ export class CreateVirtualRoomComponent implements OnInit {
     }
   }
 
-  goToVirtualDataRoom(): void {
-    this.checkForEmptyvirtualDataRoomTitle();
-    if (this.isFormValid) {
-      const virtualRoomData = {
-        name: this.dataRoomForm.value.virtualDataRoomTitle,
-        defaultGuestPermission: this.dataRoomForm.value.defaultGuestPermission,
-        access: this.dataRoomForm.value.access,
-        expiry: this.dataRoomForm.value.expiryDate
-      };
-  
-      console.log('Submitting form data:', virtualRoomData);
-      this.virtualRoomService.createVirtualDataRoom(virtualRoomData).subscribe(
-        (response: any) => {
-          console.log('Virtual Data Room created:', response);
-          const virtualRoomId = response?.data[0]?.id; // Use optional chaining
-  
-          if (virtualRoomId) {
-            const title = virtualRoomData.name;
-            this.router.navigate(['/virtual-data-room'], { queryParams: { id: virtualRoomId ,title}, });
-          } else {
-            console.error('Error: Could not retrieve virtual data room ID');
-          }
-        },
-        error => {
-          console.error('Error creating virtual data room:', error);
+ // create-virtual-room.component.ts
+ goToVirtualDataRoom(): void {
+  this.checkForEmptyvirtualDataRoomTitle();
+  if (this.isFormValid) {
+    const virtualRoomData = {
+      name: this.dataRoomForm.value.virtualDataRoomTitle,
+      defaultGuestPermission: this.dataRoomForm.value.defaultGuestPermission,
+      access: this.dataRoomForm.value.access,
+      expiry: this.dataRoomForm.value.expiryDate
+    };
+
+    console.log('Submitting form data:', virtualRoomData);
+    this.virtualRoomService.createVirtualDataRoom(virtualRoomData).subscribe(
+      (response: any) => {
+        console.log('Virtual Data Room created:', response);
+        const virtualRoomId = response.data?.id; // Ensure correct property access
+
+        if (virtualRoomId) {
+          const title = virtualRoomData.name;
+          const defaultGuestPermission = virtualRoomData.defaultGuestPermission;
+          this.router.navigate(['/virtual-data-room'], { 
+            queryParams: { 
+              id: virtualRoomId, 
+              title, 
+              defaultGuestPermission 
+            } 
+          });
+        } else {
+          console.error('Error: Could not retrieve virtual data room ID');
         }
-      );
-    }
+      },
+      error => {
+        console.error('Error creating virtual data room:', error);
+      }
+    );
   }
+}
+
 
   onTimeSet(event: any) {
     const selectedHour = event.hour < 10 ? '0' + event.hour : event.hour;

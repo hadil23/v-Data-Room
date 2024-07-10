@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { VirtualRoomService } from '../services/virtual-room.service';
+import { Router } from '@angular/router';
 
 interface DataRoom {
   selected?: boolean;
   name: string;
-  owner: string;
-  views: number;
   date: string;
   status: string;
-  
+  id: number;
 }
 
 @Component({
@@ -16,38 +16,33 @@ interface DataRoom {
   styleUrls: ['./manage-data-rooms.component.scss']
 })
 export class ManageDataRoomsComponent implements OnInit {
-status: string;
-searchQuery = '';
-
-  @Input() dataRooms: DataRoom[] = []; // Receive dataRooms from parent component (optional)
+  dataRooms: DataRoom[] = [];
 
   sortBy: string = 'newest';
+  searchQuery = '';
 
-  constructor() { }
+  constructor(private virtualRoomService: VirtualRoomService, private router: Router) { }
 
   ngOnInit(): void {
-    this.initializeDataRooms();
-    this.sortDataRooms(this.sortBy);
+    this.fetchDataRooms();
+    this.fetchInvitationStatus();
   }
 
-  initializeDataRooms() {
-    // Provide initial data if not received from parent component
-    if (!this.dataRooms.length) {
-      this.dataRooms = [
-        { name: 'E-tafakna', owner: 'Norchen', views: 100, date: '2024-04-28', status: 'draft' },
-        { name: 'Tekupers', owner: 'Khaled', views: 100, date: '2024-04-28', status: 'send' }
-      ];
-    }
-  }
-  filterDataRooms() {
-    if (this.searchQuery) {
-      this.dataRooms = this.dataRooms.filter(room =>
-        room.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        room.owner.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    } else {
-      this.initializeDataRooms(); 
-    }
+  fetchDataRooms() {
+    this.virtualRoomService.getAllVirtualDataRooms().subscribe(
+      (dataRooms: any[]) => {
+        this.dataRooms = dataRooms.map(room => ({
+          name: room.name,
+          date: room.createdAt,
+          status: room.status,
+          id: room.id
+        }));
+        this.sortDataRooms(this.sortBy);
+      },
+      (error) => {
+        console.error('Error fetching data rooms:', error);
+      }
+    );
   }
 
   sortDataRooms(sortBy: string) {
@@ -59,11 +54,8 @@ searchQuery = '';
       case 'oldest':
         this.dataRooms.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         break;
-      case 'views':
-        this.dataRooms.sort((a, b) => a.views - b.views);
-        break;
-      case 'owner':
-        this.dataRooms.sort((a, b) => a.owner.localeCompare(b.owner));
+      case 'status':
+        this.dataRooms.sort((a, b) => a.status.localeCompare(b.status));
         break;
       default:
         break;
@@ -76,23 +68,55 @@ searchQuery = '';
   }
 
   editDataRoom(index: number) {
+    const roomId = this.dataRooms[index].id;
     console.log('Edit Data Room:', this.dataRooms[index]);
-  
+
+    // Rediriger vers la page d'édition de la salle de données virtuelle avec l'ID
+    this.router.navigate(['/edit']);
   }
 
   viewDataRoom(index: number) {
     console.log('View Data Room:', this.dataRooms[index]);
+    // Implémentez la logique pour afficher une salle de données virtuelle
   }
 
   getDataRoomLink(index: number) {
     console.log('Get Data Room Link:', this.dataRooms[index]);
+    // Implémentez la logique pour obtenir le lien d'une salle de données virtuelle
   }
 
   manageAccess(index: number) {
     console.log('Manage Access:', this.dataRooms[index]);
+    // Implémentez la logique pour gérer les accès à une salle de données virtuelle
   }
 
   deleteDataRoom(index: number) {
     this.dataRooms.splice(index, 1);
+    // Implémentez la logique pour supprimer une salle de données virtuelle
+  }
+
+  filterDataRooms() {
+    if (this.searchQuery) {
+      this.dataRooms = this.dataRooms.filter(room =>
+        room.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        room.status.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    } else {
+      this.fetchDataRooms(); // Recharger les données initiales si la recherche est vide
+    }
+  }
+
+  fetchInvitationStatus() {
+    this.virtualRoomService.checkInvitationTab().subscribe(
+      (invitationStatus: any[]) => {
+        this.dataRooms.forEach(room => {
+          const foundStatus = invitationStatus.find(status => status.id === room.id);
+          room.status = foundStatus ? foundStatus.status : 'draft';
+        });
+      },
+      (error) => {
+        console.error('Error fetching invitation status:', error);
+      }
+    );
   }
 }

@@ -16,7 +16,7 @@
       <input type="text" id="lastName" name="lastName" [(ngModel)]="lastName">
     </div>
     
-    <div class="new-user" *ngIf="showNewUser">
+    <!--div class="new-user" *ngIf="showNewUser">
       <div class="form-group">
         <label for="newEmail">New Email address</label>
         <input type="email" id="newEmail" name="newEmail" [(ngModel)]="newEmail" required>
@@ -31,13 +31,13 @@
         <label for="newLastName">New Last name</label>
         <input type="text" id="newLastName" name="newLastName" [(ngModel)]="newLastName">
       </div>
-    </div>
+    </div> -->
     
     <div class="form-actions">
-      <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+      <!--<button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button> -->
       <button type="submit" [disabled]="!inviteForm.valid">Invite</button>
-    </div>
+    </div> 
     
-    <button type="button" class="btn-add-user" (click)="onAddUser()">+ Add new user</button>
+   <!---- <button type="button" class="btn-add-user" (click)="onAddUser()">+ Add new user</button> -->
   </form>
 </div>

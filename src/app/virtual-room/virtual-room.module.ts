@@ -51,6 +51,7 @@ import { CommentComponent } from './comment/comment.component';
 import { DownloadComponent } from './download/download.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { AddNewGuestComponent } from './add-new-guest/add-new-guest.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 
 
@@ -66,16 +67,17 @@ import { AddNewGuestComponent } from './add-new-guest/add-new-guest.component';
     ManageDataRoomsComponent,
     EditDraftComponent,
     CreateVirtualRoomComponent,
-    
+    VirtualDataRoomComponent,
     CreateGroupComponent,
     PermissionOverviewComponent,
     GuestsComponent,
     GroupsComponent,
-    VirtualDataRoomComponent,
+  
     AddSectionDialogComponent,
      DraftComponent,
      UserComponent,
-     ArchiveComponent
+     ArchiveComponent,
+     VerifyEmailComponent
     
      
   

@@ -20,6 +20,7 @@ export class EditDraftComponent implements OnInit {
     this.virtualDataRooms = this.draftService.getVirtualDataRooms();
     console.log(this.virtualDataRooms); 
   }
+  
 
   saveChanges(): void {
     const updatedVirtualDataRoom: VirtualDataRoom = {

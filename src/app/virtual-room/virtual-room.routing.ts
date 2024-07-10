@@ -14,12 +14,13 @@ import { DraftComponent } from './draft/draft.component';
 import { EditDraftComponent } from './edit-draft/edit-draft.component';
 import { CommentComponent } from './comment/comment.component';
 import { DownloadComponent } from './download/download.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const routes: Routes = [
   { path: 'ask-question', component: AskQuestionComponent },
   {path:'create-virtual-room',component:CreateVirtualRoomComponent},
   { path: 'virtual-data-room/:id', component: VirtualDataRoomComponent },
-
+  { path: 'verify-email', component: VerifyEmailComponent },
 
   {path:'create-group',component:CreateGroupComponent},
   {path:'permission',component:PermissionOverviewComponent},

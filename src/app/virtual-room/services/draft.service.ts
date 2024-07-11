@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { VirtualDataRoom } from '../models/virtual-data-room';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Panel } from '../models/panel';
 
 @Injectable({
@@ -9,7 +9,21 @@ import { Panel } from '../models/panel';
 export class DraftService {
   private virtualDataRooms: VirtualDataRoom[] = [];
 
-  constructor() { }
+  private drafts: any[] = [];
+  private draftsSubject = new BehaviorSubject<any[]>(this.drafts);
+
+  getDrafts() {
+    return this.draftsSubject.asObservable();
+  }
+
+  saveDraft(draft: any) {
+    this.drafts.push(draft);
+    this.draftsSubject.next(this.drafts);
+  }
+
+  getDraftById(id: number) {
+    return this.drafts.find(draft => draft.id === id);
+  }
  
 
   saveVirtualDataRooms(dataRoom: VirtualDataRoom): void {

@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VirtualDataRoom } from '../models/virtual-data-room';
 import { DraftService } from '../services/draft.service';
 import { Panel } from '../models/panel';
+import { VirtualRoomService } from '../services/virtual-room.service';
+import { CloudinaryService } from '../services/CloudinaryService';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-draft',
@@ -10,11 +13,15 @@ import { Panel } from '../models/panel';
   styleUrls: ['./edit-draft.component.scss']
 })
 export class EditDraftComponent implements OnInit {
-  @Input() virtualDataRoomTitle: string = 'E-tafakna';
-  @Input() panels: Panel[] = [{id:'1', title: 'Legal Documents', files: [] }, {id:'2', title: 'Financial Documents', files: [] }, { id:'3',title: 'Products', files: [] }, {id:'4', title: 'Intellectual Property', files: [] }];
+  @Input() virtualDataRoomTitle: string = '';
+  @Input() panels: Panel[] = [];
   virtualDataRooms: VirtualDataRoom[] = [];
-
-  constructor(private draftService: DraftService, private router: Router) {}
+private apiUrl = 'http://localhost:3000/api/files';
+  constructor( private router: Router,    private draftService: DraftService,
+    private activatedRoute: ActivatedRoute,
+    private cd: ChangeDetectorRef,
+    private cloudinaryService: CloudinaryService,
+    private http: HttpClient) {}
 
   ngOnInit(): void {
     this.virtualDataRooms = this.draftService.getVirtualDataRooms();

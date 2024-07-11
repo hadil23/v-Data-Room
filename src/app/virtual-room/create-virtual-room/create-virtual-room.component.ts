@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VirtualRoomService } from '../services/virtual-room.service';
@@ -71,48 +71,72 @@ export class CreateVirtualRoomComponent implements OnInit {
     }
   }
 
- // create-virtual-room.component.ts
- goToVirtualDataRoom(): void {
-  this.checkForEmptyvirtualDataRoomTitle();
-  if (this.isFormValid) {
-    const virtualRoomData = {
-      name: this.dataRoomForm.value.virtualDataRoomTitle,
-      defaultGuestPermission: this.dataRoomForm.value.defaultGuestPermission,
-      access: this.dataRoomForm.value.access,
-      expiry: this.dataRoomForm.value.expiryDate
-    };
+  goToVirtualDataRoom(): void {
+    this.checkForEmptyvirtualDataRoomTitle();
+    if (this.isFormValid) {
+      const chosenDateTime = this.dataRoomForm.value.chosenDateTime;
+      const selectedTime = this.dataRoomForm.value.selectedTime;
 
-    console.log('Submitting form data:', virtualRoomData);
-    this.virtualRoomService.createVirtualDataRoom(virtualRoomData).subscribe(
-      (response: any) => {
-        console.log('Virtual Data Room created:', response);
-        const virtualRoomId = response.data?.id; // Ensure correct property access
-
-        if (virtualRoomId) {
-          const title = virtualRoomData.name;
-          const defaultGuestPermission = virtualRoomData.defaultGuestPermission;
-          this.router.navigate(['/virtual-data-room'], { 
-            queryParams: { 
-              id: virtualRoomId, 
-              title, 
-              defaultGuestPermission 
-            } 
-          });
-        } else {
-          console.error('Error: Could not retrieve virtual data room ID');
-        }
-      },
-      error => {
-        console.error('Error creating virtual data room:', error);
+      if (!chosenDateTime || !selectedTime) {
+        console.error('Error: Expiry date and time are required');
+        return;
       }
-    );
-  }
-}
 
+      const hour = parseInt(selectedTime.split(':')[0], 10);
+      const minute = parseInt(selectedTime.split(':')[1], 10);
+
+      const expiryDateTimeString = `${chosenDateTime.toISOString().split('T')[0]}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00.000Z`;
+      const expiryDateTime = new Date(expiryDateTimeString);
+
+      console.log('expiryDateTimeString:', expiryDateTimeString);
+      console.log('expiryDateTime:', expiryDateTime);
+
+      if (!(expiryDateTime instanceof Date) || isNaN(expiryDateTime.getTime())) {
+        console.error('Error: Invalid expiry date and time');
+        return;
+      }
+
+      const virtualRoomData = {
+        name: this.dataRoomForm.value.virtualDataRoomTitle,
+        defaultGuestPermission: this.dataRoomForm.value.defaultGuestPermission,
+        access: this.dataRoomForm.value.access,
+        expiryDateTime: expiryDateTime
+      };
+
+      console.log('Submitting form data:', virtualRoomData);
+      this.virtualRoomService.createVirtualDataRoom(virtualRoomData).subscribe(
+        (response: any) => {
+          console.log('Virtual Data Room created:', response);
+          const virtualRoomId = response.data?.id;
+
+          if (virtualRoomId) {
+            const title = virtualRoomData.name;
+            const defaultGuestPermission = virtualRoomData.defaultGuestPermission;
+            this.router.navigate(['/virtual-data-room'], {
+              queryParams: {
+                id: virtualRoomId,
+                title,
+                defaultGuestPermission
+              }
+            });
+          } else {
+            console.error('Error: Could not retrieve virtual data room ID');
+          }
+        },
+        error => {
+          console.error('Error creating virtual data room:', error);
+        }
+      );
+    }
+  }
 
   onTimeSet(event: any) {
     const selectedHour = event.hour < 10 ? '0' + event.hour : event.hour;
     const selectedMinute = event.minute < 10 ? '0' + event.minute : event.minute;
-    this.selectedTime = `${selectedHour}:${selectedMinute}`;
+    this.dataRoomForm.get('selectedTime')?.setValue(`${selectedHour}:${selectedMinute}`);
+  }
+
+  toggleTimePicker() {
+    this.showTimePicker =!this.showTimePicker;
   }
 }

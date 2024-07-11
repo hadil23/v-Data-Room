@@ -5,93 +5,74 @@
 </div>
 <app-customizer (click)="toggleNavBarVisibility()"></app-customizer>
 <div class="container">
-
-<form [formGroup]="dataRoomForm" (ngSubmit)="goToVirtualDataRoom()">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-9">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="virtualDataRoomTitle">Data Room Name</label>
-                <input type="text" class="form-control" id="virtualDataRoomTitle" name="virtualDataRoomTitle" formControlName="virtualDataRoomTitle" required>
-                <mat-error *ngIf="dataRoomForm.get('virtualDataRoomTitle').hasError('required')">
-                  Data Room Name is required
-                </mat-error>
+  <form [formGroup]="dataRoomForm" (ngSubmit)="goToVirtualDataRoom()">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="virtualDataRoomTitle">Data Room Name</label>
+                  <input type="text" class="form-control" id="virtualDataRoomTitle" name="virtualDataRoomTitle" formControlName="virtualDataRoomTitle" required>
+                  <mat-error *ngIf="dataRoomForm.get('virtualDataRoomTitle').hasError('required')">
+                    Data Room Name is required
+                  </mat-error>
+                </div>
               </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="access">Access</label>
-                <select class="form-control" id="access" formControlName="access" name="access">
-                  <option value="specified_people">Only people I specify</option>
-                  <option value="Anyone with the link">Anyone with the link</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-               
-              </div>
-
-              <div class="form-group">
-                <label for="defaultGuestPermission">Default Guest Permission</label>
-                <select class="form-control" id="defaultGuestPermission" name="defaultGuestPermission" formControlName="defaultGuestPermission">
-                  <option value="No-Access">No Access</option>
-                  <option value="View"> Only View </option>
-                  <option value="Download">Download</option>
-                  <option value="Edit">Full Access (Edit)</option>
-                </select>
-              </div>
-            </div>
-
-          
-          </div>
-
-          <div class="form-group">
-            <label for="expiryDate">Data Room Expiry</label>
-            <div class="expiry-container">
-              <mat-slide-toggle (change)="expiryDateToggleChanged()" [formControl]="expiryDateToggleControl">
-                <span class="mat-slide-toggle-bar"></span>
-                <span class="mat-slide-toggle-label"></span>
-              </mat-slide-toggle>
-            </div>
-          </div>
-
-          <div class="row" *ngIf="showDatePicker">
-            <div class="col-md-6">
-              <div class="form-group">
-                <div class="datetime-picker">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Date and Time</mat-label>
-                    <input matInput [matDatepicker]="datetimePicker" formControlName="chosenDateTime" name="chosenDateTime">
-                    <mat-datepicker-toggle matSuffix [for]="datetimePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datetimePicker></mat-datepicker>
-                  </mat-form-field>
-                  <ngx-material-timepicker-toggle [for]="timePicker"></ngx-material-timepicker-toggle>
-                  <ngx-material-timepicker #timePicker (timeSet)="onTimeSet($event)"></ngx-material-timepicker>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="access">Access</label>
+                  <select class="form-control" id="access" formControlName="access" name="access">
+                    <option value="specified_people">Only people I specify</option>
+                    <option value="Anyone with the link">Anyone with the link</option>
+                  </select>
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="defaultGuestPermission">Default Guest Permission</label>
+                  <select class="form-control" id="defaultGuestPermission" name="defaultGuestPermission" formControlName="defaultGuestPermission">
+                    <option value="No-Access">No Access</option>
+                    <option value="View"> Only View </option>
+                    <option value="Download">Download</option>
+                    <option value="Edit">Full Access (Edit)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="expiryDate">Data Room Expiry</label>
+              <div class="expiry-container">
+                <mat-slide-toggle (change)="expiryDateToggleChanged()" [formControl]="expiryDateToggleControl">
+                  <span class="mat-slide-toggle-bar"></span>
+                  <span class="mat-slide-toggle-label"></span>
+                </mat-slide-toggle>
+              </div>
+            </div>
+            <div class="row" *ngIf="showDatePicker">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="datetime-picker">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Date and Time</mat-label>
+                      <input matInput [matDatepicker]="datetimePicker" formControlName="chosenDateTime" name="chosenDateTime">
+                      <mat-datepicker-toggle matSuffix [for]="datetimePicker"></mat-datepicker-toggle>
+                      <mat-datepicker #datetimePicker></mat-datepicker>
+                    </mat-form-field>
+                    <ngx-material-timepicker-toggle [for]="timePicker"></ngx-material-timepicker-toggle>
+                    <ngx-material-timepicker #timePicker (timeSet)="onTimeSet($event)"></ngx-material-timepicker>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit">Go to Virtual Data Room</button>
           </div>
-
-       <!----  <div class="form-group" *ngIf="showTimePicker">
-            <label for="selectedTime">Selected Time</label>
-            <input type="text" class="form-control" id="selectedTime" name="selectedTime" [value]="selectedTime">
-          </div>  -->
-     
-            <button (click)="goToVirtualDataRoom()">Go to Virtual Data Room</button>
-
-
-
-         </div>
+        </div>
       </div>
     </div>
-  </div>
-  
-</form>
+  </form>
+</div>

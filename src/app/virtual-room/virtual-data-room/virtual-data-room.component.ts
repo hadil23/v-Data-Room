@@ -188,26 +188,11 @@ export class VirtualDataRoomComponent implements OnInit {
   }
 
   goToDraft(): void {
-    // Récupérer l'ID de la salle de données virtuelle
-    const virtualRoomId = this.virtualRoomService.getVirtualRoomId();
-
-    // Préparer les panels avec leurs fichiers
-    const panelsWithFiles = this.panels.map(panel => ({
-      id: panel.id,
-      title: panel.title,
-      files: panel.files.map(file => ({
-        name: file.name,
-        url: file.url
-      }))
-    }));
-
-    // Navigation vers la page d'édition avec les queryParams
-    this.router.navigate(['/edit'], {
-      queryParams: {
-        id: virtualRoomId,
-        panels: JSON.stringify(panelsWithFiles) // Convertir les panels en JSON pour le passer en queryParams
-      }
+    this.draftService.saveVirtualDataRooms({
+      title: this.virtualDataRoomTitle,
+      panels: this.panels
     });
+    this.router.navigate(['/edit']);
   }
   
 

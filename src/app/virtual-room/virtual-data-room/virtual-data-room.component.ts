@@ -252,18 +252,13 @@ export class VirtualDataRoomComponent implements OnInit {
 
   // Dialog Methods
   openAddGuestDialog(): void {
-    if (!this.canEdit()) {
-      alert('Denied permission...');
-      return;
-    }
-
     const dialogRef = this.dialog.open(AddNewGuestComponent, {
       width: '400px',
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
-  }
+}
 
   addNewSection(): void {
     if (!this.canEdit()) {

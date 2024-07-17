@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InvitationService } from '../services/invitation.service';
-import { title } from 'process';
+
 
 @Component({
   selector: 'app-add-new-guest',

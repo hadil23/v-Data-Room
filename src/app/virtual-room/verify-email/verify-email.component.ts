@@ -12,6 +12,9 @@ export class VerifyEmailComponent implements OnInit {
   code: string = '';
   verificationMessage: string = '';
   virtualDataRoomId: string = '';
+  virtualDataRoomTitle = '';
+ 
+  permissionParam = '';
 
   constructor(
     private router: Router,
@@ -22,8 +25,10 @@ export class VerifyEmailComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.virtualDataRoomId = params['id'];
+      this.virtualDataRoomTitle = params['title'];
       this.email = params['email'];
       this.code = params['code'];
+      this.permissionParam = params['defaultGuestPermission'];
       console.log(`Virtual Data Room ID: ${this.virtualDataRoomId}`);
       console.log(`Email: ${this.email}`);
       console.log(`Code: ${this.code}`);
@@ -35,7 +40,7 @@ export class VerifyEmailComponent implements OnInit {
     console.log('Virtual Data Room ID:', this.virtualDataRoomId);
   
     if (this.virtualDataRoomId) {
-      this.verifyEmailService.verifyEmail(this.email, this.code)
+      this.verifyEmailService.verifyEmail(this.email, this.code ,this.virtualDataRoomId)
         .subscribe(
           response => {
             this.verificationMessage = response.message || 'Verification successful';
@@ -53,6 +58,6 @@ export class VerifyEmailComponent implements OnInit {
   }
 
   navigateToVirtualDataRoom(virtualDataRoomId: string) {
-    this.router.navigate(['/virtual-data-room'], { queryParams: { id: virtualDataRoomId, title: 'Your Room Title' } });
+    this.router.navigate(['/virtual-data-room'], { queryParams: { id: virtualDataRoomId, title: this.virtualDataRoomTitle , defaultGuestPermission :this.permissionParam} });
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InvitationService } from '../services/invitation.service';
+import { title } from 'process';
 
 @Component({
   selector: 'app-add-new-guest',
@@ -20,7 +21,10 @@ export class AddNewGuestComponent implements OnInit {
   newEmailRequired: boolean = false;
   formValid: boolean = false;
   userId: number = 17; 
-  virtualDataRoomId: number = 79;
+  virtualDataRoomId='';
+  virtualDataRoomTitle: string ='';
+  permissionParam: string ='';
+  
 
   constructor(
     private invitationService: InvitationService,
@@ -36,6 +40,8 @@ export class AddNewGuestComponent implements OnInit {
     // Récupérer l'ID de la Virtual Data Room depuis les paramètres de l'URL
     this.route.queryParams.subscribe(params => {
       this.virtualDataRoomId = params['id'];
+      this.virtualDataRoomTitle = params['title'];
+       this.permissionParam = params['defaultGuestPermission'];
     });
   }
 
@@ -57,7 +63,7 @@ export class AddNewGuestComponent implements OnInit {
       this.invitationService.createInvitation(invitationData).subscribe(
         response => {
           console.log('Invitation created:', response);
-          this.router.navigate(['/verify-email'], { queryParams: { id: this.virtualDataRoomId } }); 
+          this.router.navigate(['/verify-email'], { queryParams: { id: this.virtualDataRoomId , title:this.virtualDataRoomTitle , defaultGuestPermission:this.permissionParam } }); 
         },
         error => {
           console.error('Error creating invitation:', error);

@@ -291,7 +291,10 @@ export class VirtualDataRoomComponent implements OnInit {
   }
 
   goToAddNewGuest(access: string): void {
-    this.router.navigate(['/add-new-guest'], { queryParams: { access } });
+    this.router.navigate(['/add-new-guest'], { queryParams: { 
+      access: access, 
+      permissionParam: this.defaultGuestPermission 
+    } });
   }
   
 

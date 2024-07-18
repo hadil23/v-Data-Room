@@ -106,17 +106,22 @@ export class ManageDataRoomsComponent implements OnInit {
     }
   }
 
-  fetchInvitationStatus() {
+
+  fetchInvitationStatus(): void {
     this.virtualRoomService.checkInvitationTab().subscribe(
       (invitationStatus: any[]) => {
+        console.log('Invitation Status:', invitationStatus); // Vérifiez les données reçues
         this.dataRooms.forEach(room => {
-          const foundStatus = invitationStatus.find(status => status.id === room.id);
-          room.status = foundStatus ? foundStatus.status : 'draft';
+          const foundStatus = invitationStatus.find(status => status.virtualDataRoomId === room.id);
+          room.status = foundStatus ? foundStatus.status : 'drafted';
+          console.log('Updated Room:', room); // Vérifiez les mises à jour de la salle
         });
       },
       (error) => {
         console.error('Error fetching invitation status:', error);
       }
     );
-  }
+  } 
+  
+  
 }

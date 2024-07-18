@@ -39,10 +39,10 @@ export class VirtualRoomService {
     return this.http.post<any>(url, panelData);
   }
   getVirtualDataRoom(virtualDataRoomId: number): Observable<any> {
-    return this.http.get(`${this.backendUrl}/virtualDataRooms/virtualDataRooms/${virtualDataRoomId}`);
+    return this.http.get(`${this.backendUrl}/virtualDataRooms/${virtualDataRoomId}`);
   }
   getAllVirtualDataRooms(): Observable<any[]> {
-    const url = `${this.backendUrl}/api/virtualDataRooms/virtualDataRooms`;
+    const url = `${this.backendUrl}/api/virtualDataRooms`;
     return this.http.get<any[]>(url);
   }
 // virtual-room.service.ts
@@ -80,7 +80,7 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
     return this.http.post<any>(url, { url: fileUrl, user_id: userId, panel_id: panelId });
   }
   checkInvitationTab(): Observable<any> {
-    const url = `${this.backendUrl}/api/virtualDataRooms/checkInvitationTab`;
+    const url = `${this.backendUrl}/api/invitations/getAllInvitationsWithStatus`;
     return this.http.get<any>(url);
   }
 

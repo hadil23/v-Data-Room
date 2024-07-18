@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { VirtualRoomService } from '../services/virtual-room.service';
 import { Router } from '@angular/router';
-
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
+import { Panel } from '../models/panel';
 interface DataRoom {
   selected?: boolean;
   name: string;
@@ -20,8 +23,9 @@ export class ManageDataRoomsComponent implements OnInit {
 
   sortBy: string = 'newest';
   searchQuery = '';
+  panels: any;
 
-  constructor(private virtualRoomService: VirtualRoomService, private router: Router) { }
+  constructor(private virtualRoomService: VirtualRoomService, private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.fetchDataRooms();
@@ -38,12 +42,20 @@ export class ManageDataRoomsComponent implements OnInit {
           id: room.id
         }));
         this.sortDataRooms(this.sortBy);
+        
+       
+        this.panels = dataRooms.map(room => ({
+          
+          id: room.id,
+          files: room.files 
+        }));
       },
       (error) => {
         console.error('Error fetching data rooms:', error);
       }
     );
   }
+  
 
   sortDataRooms(sortBy: string) {
     this.sortBy = sortBy;
@@ -71,28 +83,51 @@ export class ManageDataRoomsComponent implements OnInit {
     const roomId = this.dataRooms[index].id;
     console.log('Edit Data Room:', this.dataRooms[index]);
 
-    // Rediriger vers la page d'édition de la salle de données virtuelle avec l'ID
+    
     this.router.navigate(['/edit']);
   }
 
+ 
+  
+
+  
   viewDataRoom(index: number) {
+    if (index < 0 || index >= this.dataRooms.length) {
+      console.error('Invalid index:', index);
+      return;
+    }
+  
+    console.log('this.dataRooms:', this.dataRooms);
+    console.log('index:', index);
+  
+    const virtualDataRoomId = this.dataRooms[index].id;
     console.log('View Data Room:', this.dataRooms[index]);
-    // Implémentez la logique pour afficher une salle de données virtuelle
+  
+    this.virtualRoomService.getVirtualDataRoom(virtualDataRoomId).subscribe(
+      (virtualDataRoom: any) => {
+        console.log('Virtual Data Room Details:', virtualDataRoom);
+        this.router.navigate(['/virtual-data-room', virtualDataRoomId], { state: { virtualDataRoom } });
+      },
+      (error) => {
+        console.error('Error fetching virtual data room:', error);
+      }
+    );
   }
+  
 
   getDataRoomLink(index: number) {
     console.log('Get Data Room Link:', this.dataRooms[index]);
-    // Implémentez la logique pour obtenir le lien d'une salle de données virtuelle
+    
   }
 
   manageAccess(index: number) {
     console.log('Manage Access:', this.dataRooms[index]);
-    // Implémentez la logique pour gérer les accès à une salle de données virtuelle
+    
   }
 
   deleteDataRoom(index: number) {
     this.dataRooms.splice(index, 1);
-    // Implémentez la logique pour supprimer une salle de données virtuelle
+
   }
 
   filterDataRooms() {
@@ -102,7 +137,7 @@ export class ManageDataRoomsComponent implements OnInit {
         room.status.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     } else {
-      this.fetchDataRooms(); // Recharger les données initiales si la recherche est vide
+      this.fetchDataRooms(); 
     }
   }
 
@@ -122,6 +157,39 @@ export class ManageDataRoomsComponent implements OnInit {
       }
     );
   } 
+  
+  downloadAllFiles(): void {
+    if (!this.panels || !Array.isArray(this.panels)) {
+      console.error('No panels data available.');
+      return;
+    }
+  
+    const zipFile = new JSZip();
+    const folder = zipFile.folder('virtual-data-room');
+  
+    const filePromises: Promise<any>[] = [];
+  
+    this.panels.forEach(panel => {
+      if (panel.files && Array.isArray(panel.files)) {
+        panel.files.forEach(file => {
+          const filePromise = this.http.get(file.url, { responseType: 'blob' }).toPromise().then(blob => {
+            folder.file(file.name, blob);
+          });
+          filePromises.push(filePromise);
+        });
+      }
+    });
+  
+    Promise.all(filePromises).then(() => {
+      zipFile.generateAsync({ type: 'blob' }).then(content => {
+        saveAs(content, 'virtual-data-room.zip');
+      }).catch(error => {
+        console.error('Error generating ZIP file:', error);
+      });
+    }).catch(error => {
+      console.error('Error fetching files:', error);
+    });
+  }
   
   
 }
